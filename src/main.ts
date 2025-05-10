@@ -2,19 +2,17 @@ import { createApp } from 'vue'
 import './style.css'
 import App from './App.vue'
 import router from './routers/index'
-
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { faEye,faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-
 import Vue3Toastify, { type ToastContainerOptions } from 'vue3-toastify';
 import 'vue3-toastify/dist/index.css';
+import * as Icons from '@ant-design/icons-vue'
 
-library.add(faEye,faEyeSlash)
+const app= createApp(App)
 
-const app= createApp(App).component('font-awesome-icon', FontAwesomeIcon)
-
+Object.keys(Icons).forEach(key => {
+    app.component(key, (Icons as any)[key])
+  })
 app.use(router)
+
 app.use(Vue3Toastify,{
     position: 'top-right',
     autoClose: 2000,
