@@ -74,10 +74,10 @@ import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 
-const email = ref("");
-const password = ref("");
-const showPassword = ref(false);
-const error=ref("");
+const email = ref<string>("");
+const password = ref<string>("");
+const showPassword = ref<boolean>(false);
+const error=ref<string>("");
 const router = useRouter();
 
 watch([email,password],()=>{
