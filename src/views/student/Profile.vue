@@ -49,7 +49,6 @@ const defaultStudentProfile: StudentProfile = {
     fatherPhone: null,
     fatherMail: null,
     fatherOccupation: null,
-    notes: null
   };
 
 const profile = ref<StudentProfile | null>(defaultStudentProfile);

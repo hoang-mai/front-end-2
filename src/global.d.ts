@@ -29,7 +29,13 @@ declare global {
     fatherMail: string | null;
     fatherOccupation: string | null;
 
-    notes: Record<string, string> | null;
+  }
+  interface BaseProfile{
+    email: string | null;
+    fullName: string | null;
+    dob: number | null;
+    gender: Gender | null;
+    avatarUrl: string | null;
   }
   type Gender = "MALE" | "FEMALE" | "UNDEFINED";
 
