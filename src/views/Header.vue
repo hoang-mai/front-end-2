@@ -1,5 +1,23 @@
 <template>
-  <header class="relative bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full">
+  <header class="max-w-[1920px] mx-auto fixed top-0 z-1000 bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full">
+    <div class="absolute left-4 flex items-center gap-2">
+      <img src="@/assets/images/logo.ico" alt="Logo" class="w-10 h-10 rounded-full object-cover" />
+
+      <a-input-search :style="{
+        borderColor: 'var(--color-border-gray)',
+      }" class=" sm:!w-20 md:!w-36 lg:!w-56"
+        @focus="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
+        @blur="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
+        :placeholder="'Tìm kiếm'">
+        <template #enterButton>
+          <a-button type="primary" class="!w-8 sm:!w-9 md:!p-1 "
+            style="background-color: var(--color-border-gray); border-color: var(--color-border-gray);">
+            <SearchOutlined class="!text-[var(--color-text-red)] text-lg" />
+          </a-button>
+        </template>
+      </a-input-search>
+    </div>
+
     <p class="text-2xl font-bold">Hệ thống thông tin trường học</p>
 
     <div class="absolute right-4 flex items-center cursor-pointer gap-4">
@@ -23,7 +41,8 @@
               <a-menu-item v-else-if="announcement.length === 0">
                 <p class="text-center text-gray-500">Không có thông báo nào</p>
               </a-menu-item>
-              <a-menu-item v-else v-for="(item, index) in announcement" :key="index" @click="handleClickAnnouncementId(item)">
+              <a-menu-item v-else v-for="(item, index) in announcement" :key="index"
+                @click="handleClickAnnouncementId(item)">
                 <div class="flex flex-row gap-2 items-center">
                   <img src="@/assets/images/mail.png" alt="Notification" class="w-10 h-10 rounded-full object-cover" />
                   <div class="flex flex-col gap-2">
@@ -36,9 +55,9 @@
                 </div>
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
-              <button v-if="loadingAnnouncement !==true && announcement.length > 0" class="w-full text-left">
+              <button v-if="loadingAnnouncement !== true && announcement.length > 0" class="w-full text-left">
                 <a-menu-item class="text-center !text-(--color-text-blue)">
-                  Xem thêm 
+                  Xem thêm
                 </a-menu-item>
               </button>
             </a-menu>
@@ -60,6 +79,26 @@
           </div>
           <template #overlay>
             <a-menu class="!p-2">
+              <a-menu-item class="!cursor-text hover:!bg-transparent">
+                <div class="flex flex-row items-center ">
+                  <img v-if="userStore.userState && userStore.userState.avatarUrl" :src="userStore.userState.avatarUrl"
+                    alt="Avatar" class="w-12 h-12 rounded-full mb-2 object-cover" />
+                  <div v-else
+                    class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mb-2 text-(--color-text-white)">
+                    <component :is="UserOutlined" class="text-2xl text-white" />
+                  </div>
+                  <div class="flex flex-col ml-4">
+                    <div class="font-bold text-lg">
+                      {{ userStore.userState?.fullName || 'Nguyen Van A' }}
+                    </div>
+                    <div class="text-gray-500 text-sm">
+                      {{ userStore.userState?.email || 'example@email.com' }}
+                    </div>
+
+                  </div>
+                </div>
+                <hr class="my-2 border-(--color-border-gray)" />
+              </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
                 <RouterLink to="/profile">
                   <div class="flex items-center gap-1 text-base">
@@ -130,7 +169,7 @@
           <a-input-password v-model:value="confirmPassword" :placeholder="'Xác nhận mật khẩu mới'" :size="'large'"
             :prefix-icon="LockOutlined" :style="{ borderColor: 'var(--color-border-gray)' }" :show-password="true"
             autocomplete="off" />
-          <p v-if="confirmPassword !== newPassword" class="text-red-500 text-sm">
+          <p v-if="confirmPassword !== newPassword && confirmPassword.length>0" class="text-red-500 text-sm">
             Mật khẩu xác nhận không khớp
           </p>
           <p v-else class="h-5"></p>
@@ -149,7 +188,7 @@
       </button>
     </template>
   </a-modal>
-  <a-modal v-if="selectedAnnouncement" v-model:open="openAnnouncement" :width="800" >
+  <a-modal v-if="selectedAnnouncement" v-model:open="openAnnouncement" :width="800">
     <template #closeIcon>
       <span class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all">
         <CloseOutlined class="text-lg" />

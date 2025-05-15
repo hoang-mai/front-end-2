@@ -1,8 +1,8 @@
 <template>
-    <main class="flex flex-row">
-        <LeftSideBar/>
-        <RouterView/>
-    </main>
+        <LeftSideBar />
+        <div class="md:ml-64 ml-52">
+            <RouterView />
+        </div>
 </template>
 <script setup lang="ts">
 

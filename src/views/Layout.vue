@@ -1,7 +1,9 @@
 <template>
     <div class="flex flex-col max-w-[1920px] mx-auto">
         <Header />
-        <RouterView />
+        <main class="mt-16">
+            <RouterView />
+        </main>
     </div>
 
 </template>
