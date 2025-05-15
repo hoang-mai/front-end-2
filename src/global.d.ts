@@ -31,6 +31,7 @@ declare global {
 
   }
   interface BaseProfile{
+    id : number;
     email: string | null;
     fullName: string | null;
     dob: number | null;
@@ -39,5 +40,12 @@ declare global {
   }
   type Gender = "MALE" | "FEMALE" | "UNDEFINED";
 
+  interface Announcement {
+    id: number;
+    title: string | null;
+    content: string | null;
+    createdAt: Date | null;
+    updatedAt: Date | null;
+  }
   
 }
