@@ -98,7 +98,9 @@
                         </div>
                     </div>
                     <div class="mt-4 flex justify-center">
-                        <button class="bg-(--color-bg-red) text-white rounded-xl px-4 py-2 hover:bg-red-900 transition-colors duration-200 flex items-center gap-2">
+                        <button
+                        @click="handleEditProfile"
+                        class="bg-(--color-bg-red) text-white rounded-xl px-4 py-2 hover:bg-red-900 transition-colors duration-200 flex items-center gap-2">
                             <EditOutlined class="text-white" />
                             Chỉnh sửa
                         </button>
@@ -206,8 +208,8 @@
                 </div>
             </div>
         </div>
-
     </div>
+    <EditProfile v-if="profile && openEditProfileModal" :profile="profile" v-model:open="openEditProfileModal"  />
 </template>
 
 <script setup lang="ts">
@@ -230,7 +232,7 @@ import {
     SaveOutlined,
     CloseOutlined
 } from '@ant-design/icons-vue';
-
+import EditProfile from './EditProfile.vue';
 const defaultStudentProfile: StudentProfile = {
     id: 0,
     email: null,
@@ -258,6 +260,9 @@ const defaultStudentProfile: StudentProfile = {
 };
 
 const profile = ref<StudentProfile | null>(defaultStudentProfile);
-
+const openEditProfileModal = ref(false);
+const handleEditProfile = () => {
+    openEditProfileModal.value = true;
+};
 </script>
 
