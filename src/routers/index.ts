@@ -7,6 +7,7 @@ import { default as StudentLayout } from "@/views/student/Layout.vue";
 import { default as TeacherLayout } from "@/views/teacher/Layout.vue";
 import { default as StudentProfile } from "@/views/student/Profile.vue";
 import { default as StudentHome } from "@/views/student/Home.vue";
+import { default as StudentSchedule } from "@/views/student/Schedule.vue";
 const routes = [
   { path: "/login", component: Login },
 
@@ -17,7 +18,8 @@ const routes = [
       { path: "", component: StudentLayout,
         children: [
           { path: "", component: StudentHome },
-          { path: "profile", component: StudentProfile }
+          { path: "profile", component: StudentProfile },
+          { path: "schedule", component: StudentSchedule },
         ]
        },
       { path: "teacher", component: TeacherLayout },

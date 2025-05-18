@@ -21,7 +21,7 @@ import {
 
 const navItems = [
   { link: "/", name: "Trang chủ", icon: HomeOutlined },
-  { link: "/schedule", name: "Lịch học", icon: CalendarOutlined },
+  { link: "/schedule", name: "Thời khoá biểu", icon: CalendarOutlined },
   { link: "/class", name: "Lớp học", icon: ReadOutlined },
 ];
 </script>
