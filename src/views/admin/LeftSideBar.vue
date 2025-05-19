@@ -25,6 +25,7 @@ import {
   ReadOutlined,
   CalendarOutlined,
   UserOutlined,
+  UserAddOutlined,
 } from "@ant-design/icons-vue";
 
 const navItems = [
@@ -33,5 +34,6 @@ const navItems = [
   { link: "/admin/student", name: "Học sinh", icon: UserOutlined },
   { link: "/admin/class", name: "Lớp học", icon: ReadOutlined },
   { link: "/admin/schedule", name: "Lịch học", icon: CalendarOutlined },
+  { link: "/admin/create-account", name: "Tạo tài khoản", icon: UserAddOutlined },
 ];
 </script>

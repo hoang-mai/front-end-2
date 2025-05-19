@@ -92,7 +92,7 @@
                       {{ userStore.userState?.fullName || 'Nguyen Van A' }}
                     </div>
                     <div class="text-gray-500 text-sm">
-                      {{ userStore.userState?.email || 'example@email.com' }}
+                      {{ userStore.userState?.username || 'example@email.com' }}
                     </div>
 
                   </div>
