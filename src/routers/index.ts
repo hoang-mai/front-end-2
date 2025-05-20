@@ -8,8 +8,9 @@ import { default as TeacherLayout } from "@/views/teacher/Layout.vue";
 import { default as StudentProfile } from "@/views/student/Profile.vue";
 import { default as StudentHome } from "@/views/student/Home.vue";
 import { default as StudentSchedule } from "@/views/student/Schedule.vue";
-import { default as CreateAccount } from "@/views/admin/CreateAccount.vue";
+import { default as CreateAccount } from "@/views/admin/create-account/CreateAccount.vue";
 import { default as AdminHome } from "@/views/admin/Home.vue";
+import Anouncement from "@/views/admin/anouncement/Anouncement.vue";
 const routes = [
   { path: "/login", component: Login },
 
@@ -29,6 +30,7 @@ const routes = [
         children: [
           { path: "", component: AdminHome },
           { path: "create-account", component: CreateAccount },
+          { path: "anouncement", component: Anouncement },
         ]
        },
 
