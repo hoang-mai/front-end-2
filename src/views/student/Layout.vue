@@ -1,4 +1,5 @@
 <template>
+    <Header />
         <LeftSideBar />
         <div class="md:ml-64 ml-52">
             <RouterView />
@@ -7,6 +8,6 @@
 <script setup lang="ts">
 
 import LeftSideBar from './LeftSideBar.vue';
-
+import Header from './Header.vue';
 
 </script>
