@@ -39,6 +39,7 @@ declare global {
     avatarUrl: string | null;
   }
   type Gender = "MALE" | "FEMALE" | "UNDEFINED";
+  type Role = "STUDENT" | "TEACHER" | "ADMIN";
 
   interface Announcement {
     id: number;

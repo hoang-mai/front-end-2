@@ -55,13 +55,25 @@
 
 
         <a-form-item label="Ảnh đại diện" name="avatarUrl">
-          <a-upload v-model:file-list="fileList" list-type="picture" :max-count="1" :accept="'image/*'">
+            <a-upload 
+            v-model:file-list="fileList" 
+            list-type="picture" 
+            :max-count="1" 
+            :accept="'image/*'"
+            :before-upload="(file: File) => {
+              const isLt2M = file.size / 1024 / 1024 < 2;
+              if (!isLt2M) {
+              toast.error('Ảnh phải nhỏ hơn 2MB!');
+              return false;
+              }
+              return true;
+            }">
             <a-button :size="'large'"
               class="hover:!border-[var(--color-border-gray)] focus:!border-[var(--color-border-gray)] active:!border-[var(--color-border-gray)] hover:!text-[var(--color-text-gray)] focus:!text-[var(--color-text-gray)] active:!text-[var(--color-text-gray)]">
               <upload-outlined style="color: currentColor" />
-              Chọn ảnh đại diện
+              Chọn ảnh đại diện (tối đa 2MB)
             </a-button>
-          </a-upload>
+            </a-upload>
         </a-form-item>
 
         <a-form-item :wrapper-col="{ offset: 6, span: 18 }">
@@ -81,6 +93,7 @@ import viVN from "ant-design-vue/es/locale/vi_VN";
 import { toast } from "vue3-toastify";
 import { post } from "@/services/callApi";
 import { adminCreateAccount } from "@/services/api";
+import { uploadImage } from "@/services/uploadImage";
 interface FormState {
   username: string;
   password: string;
@@ -104,19 +117,30 @@ const formState = reactive<FormState>({
   email: "",
   avatarUrl: "",
 });
-const fileList = ref<File | null>(null);
+const fileList = ref<any[]>([]);
 
-const onFinish = (values: FormState) => {
+const onFinish =async (values: FormState) => {
+  let avatarUrl = "";
   const formattedData = {
     ...values,
     dob: values.dob
       ? dayjs(values.dob).format("YYYY-MM-DD")
       : null,
   };
+  if (fileList.value && fileList.value.length > 0) {
+    try {
+      avatarUrl = await uploadImage(fileList.value[0].originFileObj, "avatar");
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : "Tải ảnh lên thất bại!";
+      toast.error(`Tải ảnh lên thất bại: ${errorMessage}`);
+      return;
+    }
+  }
   toast.promise(post(adminCreateAccount, {
-    ...formattedData
+    ...formattedData,
+    avatarUrl
   }).then((res) => {
-    if (res.code !== 200) {
+    if (res.code !== 201) {
       throw new Error(res.message);
     }
   }), {
@@ -137,6 +161,7 @@ const onFinish = (values: FormState) => {
     formState.phoneNumber = "";
     formState.email = "";
     formState.avatarUrl = "";
+    fileList.value = [];
   });
 }
 

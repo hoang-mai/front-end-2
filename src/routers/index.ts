@@ -10,7 +10,7 @@ import { default as StudentHome } from "@/views/student/Home.vue";
 import { default as StudentSchedule } from "@/views/student/Schedule.vue";
 import { default as CreateAccount } from "@/views/admin/create-account/CreateAccount.vue";
 import { default as AdminHome } from "@/views/admin/Home.vue";
-import Anouncement from "@/views/admin/anouncement/Anouncement.vue";
+import Announcement from "@/views/admin/announcement/Announcement.vue";
 const routes = [
   { path: "/login", component: Login },
 
@@ -30,7 +30,7 @@ const routes = [
         children: [
           { path: "", component: AdminHome },
           { path: "create-account", component: CreateAccount },
-          { path: "anouncement", component: Anouncement },
+          { path: "announcement", component: Announcement },
         ]
        },
 
