@@ -20,7 +20,7 @@
       </template>
     </a-table>
   </div>
-  <CreateAnnouncementModal v-model:open="showCreateAnnouncementModal" />
+  <CreateAnnouncementModal v-if="showCreateAnnouncementModal" v-model:open="showCreateAnnouncementModal" />
 </template>
 
 <script setup lang="ts">

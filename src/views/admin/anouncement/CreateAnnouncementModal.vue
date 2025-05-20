@@ -1,16 +1,31 @@
 <template>
-  <a-modal v-bind:open="open" :title="'Tạo Thông Báo Mới'" @ok="" @cancel="handleCancel" :confirmLoading="loading"
-    okText="Lưu" cancelText="Hủy" :okButtonProps="{
-      style: { backgroundColor: '#ff4d4f', borderColor: '#ff4d4f' },
-      danger: true
-    }">
+  <a-modal v-bind:open="open" @ok="" @cancel="handleCancel" :confirmLoading="loading">
+    <template #closeIcon>
+      <span
+        class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all"
+      >
+        <CloseOutlined class="text-lg" />
+      </span>
+    </template>
+
+    <template #title>
+      <div class="text-center text-(--color-text-red) font-bold text-2xl">
+        Tạo Thông Báo Mới
+      </div>
+      <hr class="my-2 border-(--color-border-gray)" />
+    </template>
     <a-form :model="formState" :rules="rules" ref="formRef" :label-col="{ span: 6 }" :wrapper-col="{ span: 18 }">
       <a-form-item label="Tiêu đề" name="title">
         <a-input v-model:value="formState.title" />
       </a-form-item>
 
       <a-form-item label="Nội dung" name="content">
-        <a-textarea v-model:value="formState.content" :rows="4" placeholder="Nhập nội dung thông báo..." />
+        <a-textarea
+          v-model:value="formState.content"
+          :rows="4"
+          placeholder="Nhập nội dung thông báo..."
+          :auto-size="false"
+        />
       </a-form-item>
 
       <a-form-item label="Đối tượng" name="target">
@@ -25,10 +40,27 @@
       </a-form-item>
 
       <a-form-item label="Ngày" name="date">
+        <a-config-provider :locale="viVN">
+          
         <a-date-picker v-model:value="formState.date" :show-time="{ format: 'HH:mm' }" format="YYYY-MM-DD HH:mm"
           style="width: 100%" />
+        </a-config-provider>
       </a-form-item>
     </a-form>
+     <template #footer>
+      <button
+        class="bg-(--color-bg-white) text-(--color-text-red) px-6 py-2 rounded-2xl mr-4 border text-base font-medium"
+        @click="handleCancel"
+      >
+        Hủy bỏ
+      </button>
+      <button
+        class="bg-(--color-text-red) text-(--color-text-white) px-6 py-2 rounded-2xl text-base font-medium"
+        @click=""
+      >
+        Tạo Thông Báo
+      </button>
+    </template>
   </a-modal>
 </template>
 
@@ -36,6 +68,7 @@
 import { ref, reactive } from 'vue'
 import { message } from 'ant-design-vue'
 import type { FormInstance } from 'ant-design-vue'
+import viVN from "ant-design-vue/es/locale/vi_VN";
 import dayjs from 'dayjs'
 
 interface FormState {
@@ -101,14 +134,9 @@ const handleCancel = () => {
 }
 
 :deep(.ant-input:focus),
-:deep(.ant-input-focused),
-:deep(.ant-picker-focused),
-:deep(.ant-select-focused .ant-select-selector) {
-  border-color: #ff4d4f;
-  box-shadow: 0 0 0 2px rgba(255, 77, 79, 0.2);
+:deep(.ant-input:hover),
+:deep(.ant-input:active) {
+  border-color: var(--color-border-gray);
 }
 
-:deep(.ant-select-item-option-selected:not(.ant-select-item-option-disabled)) {
-  background-color: #fff1f0;
-}
 </style>
