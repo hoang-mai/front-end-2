@@ -26,7 +26,7 @@ app.use(Vue3Toastify, {
   hideProgressBar: false,
   closeOnClick: true,
   pauseOnHover: true,
-  pauseOnFocusLoss: true,
+  pauseOnFocusLoss: false,
   draggable: true,
   progress: undefined,
 } as ToastContainerOptions);

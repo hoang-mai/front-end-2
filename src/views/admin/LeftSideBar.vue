@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="bg-[var(--color-bg-white)] h-[calc(100vh-64px)] w-64 shadow-lg flex flex-col"
+    class="fixed  top-16 bg-[var(--color-bg-white)] h-[calc(100vh-64px)] md:w-64 w-52  shadow-lg flex flex-col"
   >
     <nav class="flex-grow p-3 space-y-1">
       <RouterLink

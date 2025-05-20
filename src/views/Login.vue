@@ -51,7 +51,6 @@
 <script setup lang="ts">
 import { login } from "@/services/api";
 import { post } from "@/services/callApi";
-import { useUserStore } from "@/stores/user";
 import { ref, watch } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
@@ -90,19 +89,11 @@ const handleLogin = () => {
         localStorage.setItem("accessToken", res.data.accessToken);
         localStorage.setItem("refreshToken", res.data.refreshToken);
         if (res.data.role === "ADMIN") {
-          const userStore = useUserStore();
-          userStore.setUser({
-            id: null,
-            username: res.data.username,
-            fullName: res.data.fullName,
-            avatarUrl: res.data.avatarUrl ?? null,
-            role: res.data.role,
-          });
-          router.push("/admin");
+          router.replace("/admin");
         } else if (res.data.role === "TEACHER") {
-          router.push("/teacher");
+          router.replace("/teacher");
         } else if (res.data.role === "STUDENT") {
-          router.push("/");
+          router.replace("/");
         }
       } else {
         error.value = "Tài khoản hoặc mật khẩu không chính xác";

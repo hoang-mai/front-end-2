@@ -340,7 +340,6 @@ import {
   PlusOutlined,
   SaveOutlined,
   CloseOutlined,
-  UsergroupAddOutlined,
 } from "@ant-design/icons-vue";
 
 const { profile, open } = defineProps<{
