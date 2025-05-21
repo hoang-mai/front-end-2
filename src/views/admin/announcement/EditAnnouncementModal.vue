@@ -38,7 +38,6 @@
         <a-select v-model:value="formState.target" :size="'large'">
           <a-select-option value="STUDENT">Học sinh</a-select-option>
           <a-select-option value="TEACHER">Giáo viên</a-select-option>
-          <a-select-option value="ADMIN">Quản trị viên</a-select-option>
         </a-select>
       </a-form-item>
 
