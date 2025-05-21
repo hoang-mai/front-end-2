@@ -3,11 +3,17 @@
         <div class="container mx-auto px-4 py-6">
             <div class="grid grid-cols-[1fr_2fr] gap-6">
                 <!-- Section 1: Basic Info (Top Left) -->
-                <div class="bg-red-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-6">
+                <div class="bg-red-50 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-6 relative">
+                    <div class="absolute top-4 left-4">
+                        <button @click="$router.go(-1)" class=" flex items-center gap-2 text-red-500 hover:text-red-700 transition-colors">
+                            <LeftOutlined />
+                            <span>Quay lại</span>
+                        </button>
+                    </div>
                     <div class="flex flex-col items-center gap-4">
                         <div class="relative">
                             <img v-if="profile?.avatarUrl" :src="profile?.avatarUrl" alt="Avatar"
-                                class=" rounded-full border-4 border-white shadow-lg" />
+                                class=" rounded-full border-4 border-white shadow-lg w-36 h-36" />
                             <div v-else class="flex items-center justify-center rounded-full shadow-lg">
                                 <UserOutlined class="!text-red-500" style="font-size: 96px; padding: 16px;" />
                             </div>
@@ -209,7 +215,7 @@
         </div>
     </div>
     <EditProfile v-if="profile && openEditProfileModal" :profile="profile" v-model:open="openEditProfileModal"
-        v-model:reload="reload" />
+        v-model:reload="reload" :studentId="Array.isArray(route.params.studentId) ? route.params.studentId[0] : route.params.studentId" />
 </template>
 
 <script setup lang="ts">
@@ -232,10 +238,11 @@ import {
 } from '@ant-design/icons-vue';
 import EditProfile from './EditProfile.vue';
 import { watch } from "vue";
+import dayjs from 'dayjs';
 import { get } from "@/services/callApi";
-import { studentInformation } from "@/services/api";
+import { adminGetUserStudent, studentInformation } from "@/services/api";
 import { toast } from "vue3-toastify";
-import dayjs from "dayjs";
+import { useRoute } from "vue-router";
 const defaultStudentProfile: StudentProfile = {
     id: 0,
     email: null,
@@ -268,6 +275,7 @@ const openEditProfileModal = ref(false);
 const handleEditProfile = () => {
     openEditProfileModal.value = true;
 };
+const route = useRoute();
 
 const convertGender = (gender: string) => {
     if (!gender) return 'Chưa cung cấp';
@@ -289,7 +297,7 @@ watch(reload, (newValue) => {
     }
 });
 const fetchProfile = () => {
-    get(studentInformation).then((res) => {
+    get(adminGetUserStudent + `/${route.params.studentId}`).then((res) => {
         if (res.code === 200) {
             profile.value = res.data;
         } else {
@@ -299,7 +307,6 @@ const fetchProfile = () => {
     });
 };
 onMounted(() => {
-
     fetchProfile();
 });
 </script>

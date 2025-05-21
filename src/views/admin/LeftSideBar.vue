@@ -31,8 +31,7 @@ import {
 
 const navItems = [
   { link: "/admin", name: "Trang chủ", icon: HomeOutlined },
-  { link: "/admin/teacher", name: "Giáo viên", icon: TeamOutlined },
-  { link: "/admin/student", name: "Học sinh", icon: UserOutlined },
+  { link: "/admin/users", name: "Người dùng", icon: TeamOutlined },
   { link: "/admin/class", name: "Lớp học", icon: ReadOutlined },
   { link: "/admin/schedule", name: "Lịch học", icon: CalendarOutlined },
   { link: "/admin/announcement", name: "Thông báo", icon: NotificationOutlined },

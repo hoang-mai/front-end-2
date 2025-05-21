@@ -7,7 +7,7 @@
 </template>
 <script setup lang="ts">
 
-import Header from './Header.vue';
+import Header from './header/Header.vue';
 import LeftSideBar from './LeftSideBar.vue';
 
 

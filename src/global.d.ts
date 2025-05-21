@@ -5,7 +5,7 @@ declare global {
     id: number;
     email: string | null;
     fullName: string | null;
-    dob: number | null;
+    dob: string | null;
     gender: Gender | null;
     phoneNumber: string | null;
     avatarUrl: string | null;
@@ -28,7 +28,7 @@ declare global {
     fatherPhone: string | null;
     fatherMail: string | null;
     fatherOccupation: string | null;
-
+    
   }
   interface BaseProfile{
     id : number;
@@ -40,6 +40,7 @@ declare global {
   }
   type Gender = "MALE" | "FEMALE" | "UNDEFINED";
   type Role = "STUDENT" | "TEACHER" | "ADMIN";
+  type Status = "ACTIVE" | "INACTIVE";
 
   interface Announcement {
     id: number;

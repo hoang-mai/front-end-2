@@ -28,7 +28,7 @@
         </template>
         <template v-if="column.key === 'role'">
           <a-tag :color="record.role === 'ADMIN' ? 'blue' : record.role === 'TEACHER' ? 'green' : 'orange'">
-            {{ converRole(record.role) }}
+            {{ convertRole(record.role) }}
           </a-tag>
         </template>
       </template>
@@ -126,7 +126,7 @@ const formatDate = (date: string) => {
   return dayjs(date).format("DD-MM-YYYY");
 };
 
-const converRole = (role: string) => {
+const convertRole = (role: string) => {
   switch (role) {
     case "STUDENT":
       return "Học sinh";

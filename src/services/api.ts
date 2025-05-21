@@ -11,6 +11,10 @@ export const adminCreateAnnouncement ='/api/v1/admin/announcement/create'
 export const adminGetAllAnnouncements ='/api/v1/admin/announcement/all'
 export const adminAnnouncement ='/api/v1/admin/announcement'
 export const adminUpdateAnnouncement ='/api/v1/admin/announcement/update'
+export const adminGetAllUsers ='/api/v1/admin/users/all'
+export const adminGetUserStudent ='/api/v1/admin/users/student'
+export const adminUpdateUserStudent ='/api/v1/admin/users/update/student'
+
 
 //student
 export const studentChangeAccountPassword ='/api/v1/student/account/change-password'
@@ -18,3 +22,4 @@ export const studentInformation ='/api/v1/student/information'
 
 //search
 export const searchUser='/api/v1/search/user'
+export const searchUserView='/api/v1/search/user/view'

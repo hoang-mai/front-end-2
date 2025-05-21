@@ -3,21 +3,9 @@
     class="max-w-[1920px] mx-auto fixed top-0 z-1000 bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full">
     <div class="absolute left-4 flex items-center gap-2">
       <img src="@/assets/images/logo.ico" alt="Logo" class="w-10 h-10 rounded-full object-cover" />
-
-      <a-input-search v-model:value="searchQuery" :style="{
-        borderColor: 'var(--color-border-gray)',
-      }" class="sm:!w-20 md:!w-36 lg:!w-56"
-        @focus="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
-        @blur="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
-        :placeholder="'Tìm kiếm'" @search="handleSearch">
-        <template #enterButton>
-          <a-button type="primary" class="!w-8 sm:!w-9 md:!p-1"
-            style="background-color: var(--color-border-gray); border-color: var(--color-border-gray);">
-            <SearchOutlined class="!text-[var(--color-text-red)] text-lg" />
-          </a-button>
-        </template>
-      </a-input-search>
+      <Search/>
     </div>
+
 
     <p class="text-2xl font-bold">Hệ thống thông tin trường học</p>
 
@@ -141,27 +129,23 @@
 </template>
 
 <script setup lang="ts">
-import { logout, adminChangeAccountPassword } from "@/services/api";
-import { post } from "@/services/callApi";
+import { logout, adminChangeAccountPassword, searchUser } from "@/services/api";
+import { post, get } from "@/services/callApi";
 import { useUserStore } from "@/stores/user";
 import {
   UserOutlined,
   LogoutOutlined,
   LockOutlined,
   CloseOutlined,
+  SearchOutlined,
 } from "@ant-design/icons-vue";
-interface SearchResult {
-  id: number,
-  username: string,
-  fullName: string,
-  email: string,
-  role: Role
-}
-import { ref } from "vue";
+
+import { ref, onMounted, onUnmounted } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
-import { get } from "@/services/callApi";
-import { searchUser } from "@/services/api";
+import Search from "./Search.vue";
+
+
 const router = useRouter();
 const loadingChangePassword = ref<boolean>(false);
 const openChangePassword = ref<boolean>(false);
@@ -169,23 +153,10 @@ const form = ref();
 const oldPassword = ref<string>("");
 const newPassword = ref<string>("");
 const confirmPassword = ref<string>("");
-const searchQuery = ref<string>("");
-const searchResult = ref<SearchResult[]>([]);
+
 
 const userStore = useUserStore();
 
-const handleSearch = (value: string) => {
-  searchQuery.value = value;
-  if (searchQuery.value.length > 0) {
-    get(searchUser, { query: searchQuery.value }).then((res) => {
-      if (res.code !== 200) {
-        toast.error("Tìm kiếm thất bại");
-        return;
-      }
-      searchResult.value = res.data;
-    });
-  }
-}
 
 const handleCancel = () => {
   openChangePassword.value = false;
@@ -244,3 +215,9 @@ const handleLogout = () => {
   });
 };
 </script>
+
+<style scoped>
+.search-result-item:hover {
+  background-color: rgba(var(--color-bg-red), 0.1);
+}
+</style>
