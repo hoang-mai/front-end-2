@@ -151,21 +151,17 @@ import {
   LogoutOutlined,
   LockOutlined,
   CloseOutlined,
-  BellFilled,
 } from "@ant-design/icons-vue";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 const router = useRouter();
 const loadingChangePassword = ref<boolean>(false);
-const loadingAnnouncement = ref<boolean>(false);
 const openChangePassword = ref<boolean>(false);
-const openAnnouncement = ref<boolean>(false);
 const form = ref();
 const oldPassword = ref<string>("");
 const newPassword = ref<string>("");
 const confirmPassword = ref<string>("");
-const countNotification = ref<number>(1);
 
 const userStore = useUserStore();
 
@@ -179,7 +175,7 @@ const handleChangePassword = () => {
     return;
   }
   if (newPassword.value.length < 8) {
-    toast.error("Mật khẩu mới phải có ít nhất 6 ký tự");
+    toast.error("Mật khẩu mới phải có ít nhất 8 ký tự");
     return;
   }
   if (newPassword.value !== confirmPassword.value) {

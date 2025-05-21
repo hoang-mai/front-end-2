@@ -224,7 +224,7 @@
             v-if="newPassword.length > 0 && newPassword.length < 6"
             class="text-red-500 text-sm"
           >
-            Mật khẩu phải có ít nhất 6 ký tự
+            Mật khẩu phải có ít nhất 8 ký tự
           </p>
           <p v-else class="h-5"></p>
         </div>
@@ -305,7 +305,7 @@
 </template>
 
 <script setup lang="ts">
-import { logout } from "@/services/api";
+import { logout, studentChangeAccountPassword } from "@/services/api";
 import { post } from "@/services/callApi";
 import { useUserStore } from "@/stores/user";
 import {
@@ -352,12 +352,40 @@ const handleCancel = () => {
 };
 
 const handleChangePassword = () => {
+  if (oldPassword.value === "" || newPassword.value === "" || confirmPassword.value === "") {
+    toast.error("Vui lòng nhập đầy đủ thông tin");
+    return;
+  }
+  if (newPassword.value.length < 8) {
+    toast.error("Mật khẩu mới phải có ít nhất 8 ký tự");
+    return;
+  }
+  if (newPassword.value !== confirmPassword.value) {
+    toast.error("Mật khẩu xác nhận không khớp");
+    return;
+  }
   loadingChangePassword.value = true;
 
-  toast.success("Đổi mật khẩu thành công");
-
-  loadingChangePassword.value = false;
-  openChangePassword.value = false;
+  toast.promise(
+    post(studentChangeAccountPassword, {
+      currentPassword:oldPassword.value,
+      newPassword: newPassword.value, 
+    }).then((res) => {
+      if (res.code !== 202) {
+        throw new Error("Đổi mật khẩu thất bại");
+      } else {
+        openChangePassword.value = false;
+        oldPassword.value = "";
+        newPassword.value = "";
+        confirmPassword.value = "";
+        loadingChangePassword.value = false;
+      }
+    }),
+    {
+      pending: "Đang đổi mật khẩu...",
+      success: "Đổi mật khẩu thành công",
+      error: "Đổi mật khẩu thất bại",
+    });
 };
 
 const handleClickAnnouncement = () => {

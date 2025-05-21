@@ -37,9 +37,9 @@ const checkTokenExpiration = () => {
     const decoded = jwtDecode<JwtPayload>(accessToken);
     if (decoded.sub === 'admin' && !route.path.includes('/admin')) {
         router.replace('/admin');
-    } else if (decoded.sub === 'teacher' && !route.path.includes('/admin')) {
+    } else if (decoded.sub === 'teacher' && !route.path.includes('/teacher')) {
         router.replace('/teacher');
-    } else if (decoded.sub === 'student' && !route.path.includes('/admin')) {
+    } else if (decoded.sub === 'student' && !route.path.includes('/')) {
         router.replace('/');
     }
 };

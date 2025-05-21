@@ -187,6 +187,7 @@ const onFinish = async (values: FormState) => {
         if (res.code !== 201) {
             throw new Error(res.message);
         }
+        emit("update:reload", true);
         emit("update:open", false);
     }), {
         pending: "Đang tạo tài khoản...",

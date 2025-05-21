@@ -11,3 +11,7 @@ export const adminCreateAnnouncement ='/api/v1/admin/announcement/create'
 export const adminGetAllAnnouncements ='/api/v1/admin/announcement/all'
 export const adminAnnouncement ='/api/v1/admin/announcement'
 export const adminUpdateAnnouncement ='/api/v1/admin/announcement/update'
+
+//student
+export const studentChangeAccountPassword ='/api/v1/student/account/change-password'
+export const studentInformation ='/api/v1/student/information'

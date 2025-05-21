@@ -5,7 +5,7 @@ import { default as AdminLayout } from "@/views/admin/Layout.vue";
 import { default as Layout } from "@/views/Layout.vue";
 import { default as StudentLayout } from "@/views/student/Layout.vue";
 import { default as TeacherLayout } from "@/views/teacher/Layout.vue";
-import { default as StudentProfile } from "@/views/student/Profile.vue";
+import { default as StudentProfile } from "@/views/student/profile/Profile.vue";
 import { default as StudentHome } from "@/views/student/Home.vue";
 import { default as StudentSchedule } from "@/views/student/Schedule.vue";
 import { default as Account } from "@/views/admin/account/Account.vue";

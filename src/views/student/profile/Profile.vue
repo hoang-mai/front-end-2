@@ -43,7 +43,7 @@
                                 <ContactsOutlined class="!text-gray-500" />
                                 <span>Giới Tính</span>
                             </div>
-                            <span>{{ profile?.gender || 'Chưa cung cấp' }}</span>
+                            <span>{{ convertGender(profile?.gender ?? 'Chưa cung cấp') || 'Chưa cung cấp' }}</span>
                         </div>
                         <div>
                             <div class="text-gray-500 font-medium mb-1 flex items-center gap-2">
@@ -209,11 +209,11 @@
             </div>
         </div>
     </div>
-    <EditProfile v-if="profile && openEditProfileModal" :profile="profile" v-model:open="openEditProfileModal"  />
+    <EditProfile v-if="profile && openEditProfileModal" :profile="profile" v-model:open="openEditProfileModal" v-model:reload="reload" />
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
 import {
     UserOutlined,
     MailOutlined,
@@ -229,10 +229,11 @@ import {
     EnvironmentOutlined,
     LockOutlined,
     ContactsOutlined,
-    SaveOutlined,
-    CloseOutlined
 } from '@ant-design/icons-vue';
 import EditProfile from './EditProfile.vue';
+import { get } from "@/services/callApi";
+import { studentInformation } from "@/services/api";
+import { toast } from "vue3-toastify";
 const defaultStudentProfile: StudentProfile = {
     id: 0,
     email: null,
@@ -259,10 +260,38 @@ const defaultStudentProfile: StudentProfile = {
     fatherOccupation: null,
 };
 
+const reload = ref(false);
 const profile = ref<StudentProfile | null>(defaultStudentProfile);
 const openEditProfileModal = ref(false);
 const handleEditProfile = () => {
     openEditProfileModal.value = true;
 };
+
+const convertGender = (gender: string) => {
+    if (!gender) return 'Chưa cung cấp';
+    switch (gender) {
+        case 'MALE':
+            return 'Nam';
+        case 'FEMALE':
+            return 'Nữ';
+        case 'OTHER':
+            return 'Khác';
+        default:
+            return gender;
+    }
+};
+onMounted(() => {
+    const fetchProfile = async () => {
+        get(studentInformation).then((res) => {
+            if (res.code === 200) {
+                profile.value = res.data;
+            } else {
+                profile.value = defaultStudentProfile;
+                toast.error("Lấy thông tin thất bại");
+            }
+        });
+    };
+    fetchProfile();
+});
 </script>
 
