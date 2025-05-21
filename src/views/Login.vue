@@ -15,7 +15,7 @@
           <input id="password" :type="showPassword ? 'text' : 'password'" v-model="password"
             class="w-full px-3 py-2 mt-1 focus:outline-none border-b-2 border-gray-300 focus:border-red-500 transition duration-200" />
           <p v-if="validatePassword()" class="text-red-500">
-            Mật khẩu phải có ít nhất 6 ký tự
+            Mật khẩu phải có ít nhất 8 ký tự
           </p>
           <p v-else-if="error !== ''" class="text-red-500">
             {{ error }}
