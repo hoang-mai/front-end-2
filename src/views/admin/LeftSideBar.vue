@@ -36,6 +36,6 @@ const navItems = [
   { link: "/admin/class", name: "Lớp học", icon: ReadOutlined },
   { link: "/admin/schedule", name: "Lịch học", icon: CalendarOutlined },
   { link: "/admin/announcement", name: "Thông báo", icon: NotificationOutlined },
-  { link: "/admin/create-account", name: "Tạo tài khoản", icon: UserAddOutlined },
+  { link: "/admin/account", name: "Tài khoản", icon: UserAddOutlined },
 ];
 </script>

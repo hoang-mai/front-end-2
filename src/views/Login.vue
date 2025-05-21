@@ -4,7 +4,7 @@
       <h2 class="text-2xl font-bold text-center text-red-600">Đăng nhập</h2>
       <form @submit.prevent="handleLogin" class="space-y-2">
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
+          <label for="email" class="block text-sm font-medium text-gray-700">Tên đăng nhập</label>
           <input id="email" type="text" v-model="email"
             class="w-full px-3 py-2 mt-1 focus:outline-none border-b-2 border-gray-300 focus:border-red-500 transition duration-200" />
           <!-- <p v-if="validateEmail()" class="text-red-500">Email không hợp lệ</p>
@@ -15,7 +15,7 @@
           <input id="password" :type="showPassword ? 'text' : 'password'" v-model="password"
             class="w-full px-3 py-2 mt-1 focus:outline-none border-b-2 border-gray-300 focus:border-red-500 transition duration-200" />
           <p v-if="validatePassword()" class="text-red-500">
-            Mật khẩu phải có ít nhất 6 ký tự
+            Mật khẩu phải có ít nhất 8 ký tự
           </p>
           <p v-else-if="error !== ''" class="text-red-500">
             {{ error }}
