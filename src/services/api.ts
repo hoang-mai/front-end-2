@@ -15,3 +15,6 @@ export const adminUpdateAnnouncement ='/api/v1/admin/announcement/update'
 //student
 export const studentChangeAccountPassword ='/api/v1/student/account/change-password'
 export const studentInformation ='/api/v1/student/information'
+
+//search
+export const searchUser='/api/v1/search/user'

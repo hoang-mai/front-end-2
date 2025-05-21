@@ -8,8 +8,7 @@
                         <div class="relative">
                             <img v-if="profile?.avatarUrl" :src="profile?.avatarUrl" alt="Avatar"
                                 class=" rounded-full border-4 border-white shadow-lg" />
-                            <div v-else
-                                class="flex items-center justify-center rounded-full shadow-lg">
+                            <div v-else class="flex items-center justify-center rounded-full shadow-lg">
                                 <UserOutlined class="!text-red-500" style="font-size: 96px; padding: 16px;" />
                             </div>
                         </div>
@@ -62,7 +61,8 @@
                     </div>
                 </div>
                 <!-- Section 2: Security Info (Bottom Left) -->
-                <div class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col ">
+                <div
+                    class="bg-white rounded-xl shadow-sm hover:shadow-md transition-all duration-200 p-6 flex flex-col ">
                     <div class="flex items-center gap-2 text-red-500 mb-4">
                         <LockOutlined />
                         <span class="text-lg font-semibold">Thông Tin </span>
@@ -98,9 +98,8 @@
                         </div>
                     </div>
                     <div class="mt-4 flex justify-center">
-                        <button
-                        @click="handleEditProfile"
-                        class="bg-(--color-bg-red) text-white rounded-xl px-4 py-2 hover:bg-red-900 transition-colors duration-200 flex items-center gap-2">
+                        <button @click="handleEditProfile"
+                            class="bg-(--color-bg-red) text-white rounded-xl px-4 py-2 hover:bg-red-900 transition-colors duration-200 flex items-center gap-2">
                             <EditOutlined class="text-white" />
                             Chỉnh sửa
                         </button>
@@ -209,7 +208,8 @@
             </div>
         </div>
     </div>
-    <EditProfile v-if="profile && openEditProfileModal" :profile="profile" v-model:open="openEditProfileModal" v-model:reload="reload" />
+    <EditProfile v-if="profile && openEditProfileModal" :profile="profile" v-model:open="openEditProfileModal"
+        v-model:reload="reload" />
 </template>
 
 <script setup lang="ts">
@@ -231,6 +231,7 @@ import {
     ContactsOutlined,
 } from '@ant-design/icons-vue';
 import EditProfile from './EditProfile.vue';
+import { watch } from "vue";
 import { get } from "@/services/callApi";
 import { studentInformation } from "@/services/api";
 import { toast } from "vue3-toastify";
@@ -280,18 +281,24 @@ const convertGender = (gender: string) => {
             return gender;
     }
 };
+watch(reload, (newValue) => {
+    if (newValue) {
+        fetchProfile();
+        reload.value = false;
+    }
+});
+const fetchProfile = () => {
+    get(studentInformation).then((res) => {
+        if (res.code === 200) {
+            profile.value = res.data;
+        } else {
+            profile.value = defaultStudentProfile;
+            toast.error("Lấy thông tin thất bại");
+        }
+    });
+};
 onMounted(() => {
-    const fetchProfile = async () => {
-        get(studentInformation).then((res) => {
-            if (res.code === 200) {
-                profile.value = res.data;
-            } else {
-                profile.value = defaultStudentProfile;
-                toast.error("Lấy thông tin thất bại");
-            }
-        });
-    };
+
     fetchProfile();
 });
 </script>
-
