@@ -11,12 +11,39 @@
 </template>
 
 <script setup lang="ts">
-import { RouterView, useRouter } from 'vue-router';
+interface JwtPayload {
+    exp: number;
+    iat: number;
+    sub: string;
+}
+import { RouterView, useRouter, useRoute } from 'vue-router';
+import { computed } from 'vue';
 import { useExpired } from '@/stores/expired';
-const { expiredState, setExpired } = useExpired();
+import { jwtDecode } from 'jwt-decode';
+const expiredStore = useExpired();
+const expiredState = computed(() => expiredStore.expiredState);
 const router = useRouter();
+const route = useRoute();
 const redirectToLogin = () => {
-    setExpired(false);
+    expiredStore.setExpired(false);
     router.push('/login');
 };
+const checkTokenExpiration = () => {
+    const accessToken = localStorage.getItem('accessToken');
+    if (!accessToken) {
+        router.push('/login');
+        return;
+    }
+    const decoded = jwtDecode<JwtPayload>(accessToken);
+    if (decoded.sub === 'admin' && !route.path.includes('/admin')) {
+        router.replace('/admin');
+    } else if (decoded.sub === 'teacher' && !route.path.includes('/admin')) {
+        router.replace('/teacher');
+    } else if (decoded.sub === 'student' && !route.path.includes('/admin')) {
+        router.replace('/');
+    }
+};
+
+checkTokenExpiration();
+
 </script>

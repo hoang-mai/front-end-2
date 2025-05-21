@@ -1,7 +1,12 @@
 import axios from "axios";
 import { refresh } from "./api";
 import { useExpired } from "@/stores/expired";
-
+import { jwtDecode } from 'jwt-decode';
+interface JwtPayload {
+  exp: number;
+  iat: number;
+  sub: string;
+}
 const axiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_HOST,
   headers: {
@@ -66,10 +71,29 @@ axiosInstance.interceptors.response.use(
       }
       isRefreshing = true;
       const refreshToken = localStorage.getItem('refreshToken')
-      return axios.post(import.meta.env.VITE_API_HOST+'/'+refresh, {
+      if (!refreshToken) {
+        const expiredStore = useExpired();
+        expiredStore.setExpired(true);
+        return Promise.reject(new Error('No refresh token available'));
+      }
+      const decoded = jwtDecode<JwtPayload>(refreshToken);
+      const currentTime = Math.floor(Date.now() / 1000);
+      if (decoded.exp < currentTime) {
+        const expiredStore = useExpired();
+        expiredStore.setExpired(true);
+        return Promise.reject(new Error('Refresh token expired'));
+      }
+      return axios.post(import.meta.env.VITE_API_HOST + '/' + refresh, {
         refreshToken: refreshToken,
       })
         .then((res) => {
+
+          if (res.data.code !== 200) {
+            console.log(res.data);
+            const expiredStore = useExpired();
+            expiredStore.setExpired(true);
+            return Promise.reject(new Error('Token refresh failed'));
+          }
           const newAccessToken = res.data.accessToken;
           localStorage.setItem('accessToken', newAccessToken);
 
