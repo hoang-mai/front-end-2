@@ -441,7 +441,7 @@ const convertGender = (gender: string) => {
       return "Nam";
     case "FEMALE":
       return "Nữ";
-    case "OTHER":
+    case "UNDEFINED":
       return "Khác";
     default:
       return gender;
@@ -454,7 +454,7 @@ const convertStringToGender = (gender: string) => {
     case "Nữ":
       return "FEMALE";
     case "Khác":
-      return "OTHER";
+      return "UNDEFINED";
     default:
       return gender;
   }
@@ -498,7 +498,11 @@ const handleOk = async () => {
     {
       pending: "Đang cập nhật thông tin",
       success: "Cập nhật thông tin thành công",
-      error: "Cập nhật thông tin thất bại",
+      error: {
+        render({ data }) {
+          return `${data}` || "Cập nhật thông tin thất bại";
+        },
+      },
     }
   );
 };

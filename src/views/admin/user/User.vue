@@ -166,7 +166,7 @@ const convertGender = (gender: string) => {
       return "Nam";
     case "FEMALE":
       return "Nữ";
-    case "OTHER":
+    case "UNDEFINED":
       return "Khác";
     default:
       return "";
@@ -184,10 +184,10 @@ const handleTableChange = (paginationTable: {
 const handleRowClick = (record: User) => {
   if (record.role === "ADMIN") {
     // Redirect to admin detail page
-    router.push({ name: "admin", params: { id: record.adminId } });
+    router.push({ name: "admin", params: { adminId: record.adminId } });
   } else if (record.role === "TEACHER") {
     // Redirect to teacher detail page
-    router.push({ name: "teacher", params: { id: record.teacherId } });
+    router.push({ name: "teacher", params: { teacherId: record.teacherId } });
   } else if (record.role === "STUDENT") {
     // Redirect to student detail page
     router.push({ name: "student", params: { studentId: record.studentId } });

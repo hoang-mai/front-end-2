@@ -33,6 +33,7 @@ const navItems = [
   { link: "/admin", name: "Trang chủ", icon: HomeOutlined },
   { link: "/admin/users", name: "Người dùng", icon: TeamOutlined },
   { link: "/admin/class", name: "Lớp học", icon: ReadOutlined },
+  { link: "/admin/subject", name: "Môn học", icon: ReadOutlined },
   { link: "/admin/schedule", name: "Lịch học", icon: CalendarOutlined },
   { link: "/admin/announcement", name: "Thông báo", icon: NotificationOutlined },
   { link: "/admin/account", name: "Tài khoản", icon: UserAddOutlined },

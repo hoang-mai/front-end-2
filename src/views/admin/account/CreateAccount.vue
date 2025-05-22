@@ -54,7 +54,7 @@
                 <a-select v-model:value="formState.gender" placeholder="Chọn giới tính" :size="'large'">
                     <a-select-option value="MALE">Nam</a-select-option>
                     <a-select-option value="FEMALE">Nữ</a-select-option>
-                    <a-select-option value="OTHER">Khác</a-select-option>
+                    <a-select-option value="UNDEFINED">Khác</a-select-option>
                 </a-select>
             </a-form-item>
 

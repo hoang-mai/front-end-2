@@ -276,7 +276,7 @@ const convertGender = (gender: string) => {
             return 'Nam';
         case 'FEMALE':
             return 'Nữ';
-        case 'OTHER':
+        case 'UNDEFINED':
             return 'Khác';
         default:
             return gender;
