@@ -11,7 +11,10 @@ import { default as StudentSchedule } from "@/views/student/Schedule.vue";
 import { default as Account } from "@/views/admin/account/Account.vue";
 import { default as AdminHome } from "@/views/admin/Home.vue";
 import { default as UserLayout } from "@/views/admin/user/Layout.vue";
+import { default as AdminSubjectLayout } from "@/views/admin/subject/Layout.vue";
+import { default as AdminDetailSubject } from "@/views/admin/subject/DetailSubject.vue";
 import Announcement from "@/views/admin/announcement/Announcement.vue";
+import { default as AdminSubject } from "@/views/admin/subject/Subject.vue";
 import User from "@/views/admin/user/User.vue";
 import Student from "@/views/admin/user/student/Student.vue";
 const routes = [
@@ -38,6 +41,12 @@ const routes = [
           { path: "", component: AdminHome },
           { path: "account", component: Account },
           { path: "announcement", component: Announcement },
+          { path: "subject", component: AdminSubjectLayout,
+            children: [
+              { path: "", component: AdminSubject },
+              { path: ":subjectId", component: AdminDetailSubject, name: "subject" },
+            ]
+           },
           {
             path: "users",
             component: UserLayout,

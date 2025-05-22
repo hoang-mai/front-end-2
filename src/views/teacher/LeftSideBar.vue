@@ -3,10 +3,7 @@
     class="bg-[var(--color-bg-white)] h-[calc(100vh-64px)] w-64 shadow-lg flex flex-col"
   >
     <nav class="flex-grow p-3 space-y-1">
-      <RouterLink
-        v-for="item in navItems"
-        :key="item.link"
-        :to="item.link"
+      <RouterLink v-for="item in navItems" :key="item.link" :to="item.link"
         class="flex items-center px-4 py-3 rounded-md text-(--color-text-gray) transition-colors duration-200 hover:bg-gray-100 hover:text-[var(--color-text-red)]"
         exact-active-class="bg-gray-100 text-[var(--color-text-red)] border-l-4 border-[var(--color-text-red)]"
       >

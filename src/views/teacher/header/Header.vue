@@ -148,7 +148,7 @@
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
-                <RouterLink to="/profile">
+                <RouterLink to="/teacher/profile">
                   <div class="flex items-center gap-1 text-base">
                     <UserOutlined />
                     <span>Thông tin cá nhân</span>
@@ -221,10 +221,10 @@
             :show-password="true"
           />
           <p
-            v-if="newPassword.length > 0 && newPassword.length < 6"
+            v-if="newPassword.length > 0 && newPassword.length < 8"
             class="text-red-500 text-sm"
           >
-            Mật khẩu phải có ít nhất 6 ký tự
+            Mật khẩu phải có ít nhất 8 ký tự
           </p>
           <p v-else class="h-5"></p>
         </div>
@@ -352,6 +352,18 @@ const handleCancel = () => {
 };
 
 const handleChangePassword = () => {
+  if (oldPassword.value === "" || newPassword.value === "" || confirmPassword.value === "") {
+    toast.error("Vui lòng nhập đầy đủ thông tin");
+    return;
+  }
+  if (newPassword.value.length < 8) {
+    toast.error("Mật khẩu mới phải có ít nhất 8 ký tự");
+    return;
+  }
+  if (newPassword.value !== confirmPassword.value) {
+    toast.error("Mật khẩu xác nhận không khớp");
+    return;
+  }
   loadingChangePassword.value = true;
 
   toast.success("Đổi mật khẩu thành công");

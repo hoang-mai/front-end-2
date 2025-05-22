@@ -14,6 +14,10 @@ export const adminUpdateAnnouncement ='/api/v1/admin/announcement/update'
 export const adminGetAllUsers ='/api/v1/admin/users/all'
 export const adminGetUserStudent ='/api/v1/admin/users/student'
 export const adminUpdateUserStudent ='/api/v1/admin/users/update/student'
+export const adminSubject ='/api/v1/admin/subject'
+export const adminCreateSubject ='/api/v1/admin/subject/create'
+export const adminGetAllSubjects ='/api/v1/admin/subject/all'
+export const adminUpdateSubject ='/api/v1/admin/subject/update'
 
 
 //student

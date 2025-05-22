@@ -1,62 +1,42 @@
 <template>
   <div class="relative" ref="searchContainerRef">
-    <a-input-search
-      v-model:value="searchQuery"
-      :style="{
-        borderColor: 'var(--color-border-gray)',
-      }"
-      class="sm:!w-20 md:!w-36 lg:!w-56"
+    <a-input-search v-model:value="searchQuery" :style="{
+      borderColor: 'var(--color-border-gray)',
+    }" class="sm:!w-20 md:!w-36 lg:!w-56"
       @focus="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
       @blur="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
-      :placeholder="'Tìm kiếm'"
-      @search="handleSearch"
-      @input="(e: Event) => handleSearchNow((e.target as HTMLInputElement).value)"
-    >
+      :placeholder="'Tìm kiếm'" @search="handleSearch"
+      @input="(e: Event) => handleSearchNow((e.target as HTMLInputElement).value)">
       <template #enterButton>
-        <a-button
-          type="primary"
-          class="!w-8 sm:!w-9 md:!p-1"
-          style="
+        <a-button type="primary" class="!w-8 sm:!w-9 md:!p-1" style="
             background-color: var(--color-border-gray);
             border-color: var(--color-border-gray);
-          "
-        >
+          ">
           <SearchOutlined class="!text-[var(--color-text-red)] text-lg" />
         </a-button>
       </template>
     </a-input-search>
 
     <!-- Search Results Dropdown -->
-    <div
-      v-if="searchQuery && searchResult.length > 0"
-      class="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg z-50 max-h-80 overflow-y-auto"
-    >
+    <div v-if="searchQuery && searchResult.length > 0"
+      class="absolute top-full left-0 mt-1 bg-white rounded-md shadow-lg z-50 max-h-80 overflow-y-auto">
       <ul class="py-2">
-        <li
-          v-for="(result, index) in searchResult"
-          :key="index"
+        <li v-for="(result, index) in searchResult" :key="index"
           class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
-          @click="handleSelectAccount(result.id)"
-        >
-          <div
-            class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-(--color-text-white)"
-          >
+          @click="handleSelectAccount(result.id)">
+          <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-(--color-text-white)">
             <UserOutlined />
           </div>
           <div class="flex flex-col">
             <span class="font-medium text-gray-800">{{ result.fullName }}</span>
             <span class="text-sm text-gray-500">{{ result.email }}</span>
           </div>
-          <a-tag
-            :color="
-              result.role === 'ADMIN'
-                ? 'blue'
-                : result.role === 'TEACHER'
-                ? 'green'
-                : 'orange'
-            "
-            class="ml-auto"
-          >
+          <a-tag :color="result.role === 'ADMIN'
+            ? 'blue'
+            : result.role === 'TEACHER'
+              ? 'green'
+              : 'orange'
+            " class="ml-auto">
             {{ convertRole(result.role) }}
           </a-tag>
         </li>
@@ -64,13 +44,8 @@
     </div>
   </div>
   <!-- Account Detail Modal -->
-  <a-modal
-    v-model:open="showDetailAccountModal"
-    @cancel="showDetailAccountModal = false"
-    ><template #closeIcon>
-      <span
-        class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all"
-      >
+  <a-modal v-model:open="showDetailAccountModal" @cancel="showDetailAccountModal = false"><template #closeIcon>
+      <span class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all">
         <CloseOutlined class="text-lg" />
       </span>
     </template>
@@ -83,37 +58,24 @@
     </template>
     <div v-if="selectedAccount" class="flex flex-col">
       <div class="flex items-center mb-4">
-        <div
-          class="w-16 h-16 rounded-full overflow-hidden mr-4 bg-red-600 flex items-center justify-center text-white"
-        >
-          <img
-            v-if="selectedAccount.avatarUrl"
-            :src="selectedAccount.avatarUrl"
-            alt="Avatar"
-            class="w-full h-full object-cover"
-          />
+        <div class="w-16 h-16 rounded-full overflow-hidden mr-4 bg-red-600 flex items-center justify-center text-white">
+          <img v-if="selectedAccount.avatarUrl" :src="selectedAccount.avatarUrl" alt="Avatar"
+            class="w-full h-full object-cover" />
           <UserOutlined v-else style="font-size: 24px" />
         </div>
         <div>
           <h2 class="text-lg font-bold">{{ selectedAccount.fullName }}</h2>
           <p class="text-gray-500">{{ selectedAccount.email }}</p>
-          <a-tag
-            :color="
-              selectedAccount.role === 'ADMIN'
-                ? 'blue'
-                : selectedAccount.role === 'TEACHER'
-                ? 'green'
-                : 'orange'
-            "
-          >
+          <a-tag :color="selectedAccount.role === 'ADMIN'
+            ? 'blue'
+            : selectedAccount.role === 'TEACHER'
+              ? 'green'
+              : 'orange'
+            ">
             {{ convertRole(selectedAccount.role) }}
           </a-tag>
-          <a-tag
-            :color="
-              selectedAccount.accountStatus === 'ACTIVE' ? 'green' : 'red'
-            "
-            class="ml-2"
-          >
+          <a-tag :color="selectedAccount.accountStatus === 'ACTIVE' ? 'green' : 'red'
+            " class="ml-2">
             {{
               selectedAccount.accountStatus === "ACTIVE"
                 ? "Đang hoạt động"
@@ -141,8 +103,10 @@
               selectedAccount.gender === "MALE"
                 ? "Nam"
                 : selectedAccount.gender === "FEMALE"
-                ? "Nữ"
-                : "Khác"
+                  ? "Nữ"
+                  : selectedAccount.gender === "OTHER"
+                    ? "Khác"
+                    : "Chưa cập nhật"
             }}
           </p>
         </div>

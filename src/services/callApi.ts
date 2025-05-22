@@ -128,3 +128,6 @@ export const put = (url: string, data?: any) => {
 export const del = (url: string) => {
   return axiosInstance.delete(url);
 }
+export const patch = (url: string, data?: any) => {
+  return axiosInstance.patch(url, data);
+}
