@@ -38,7 +38,7 @@ declare global {
     gender: Gender | null;
     avatarUrl: string | null;
   }
-  type Gender = "MALE" | "FEMALE" | "OTHER";
+  type Gender = "MALE" | "FEMALE" | "UNDEFINED";
   type Role = "STUDENT" | "TEACHER" | "ADMIN";
   type Status = "ACTIVE" | "INACTIVE";
 

@@ -17,6 +17,7 @@ import Announcement from "@/views/admin/announcement/Announcement.vue";
 import { default as AdminSubject } from "@/views/admin/subject/Subject.vue";
 import User from "@/views/admin/user/User.vue";
 import Student from "@/views/admin/user/student/Student.vue";
+import Admin from "@/views/admin/user/admin/Admin.vue";
 const routes = [
   { path: "/login", component: Login },
 
@@ -58,7 +59,7 @@ const routes = [
                 component: Student,
               },
               // { path: "teacher/:teacherId", component: UserCreate },
-              // { path: "admin/:adminId", component: UserEdit },
+              { path: "admin/:adminId", component: Admin , name: "admin"},
             ],
           },
         ],

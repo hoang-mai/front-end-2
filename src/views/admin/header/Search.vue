@@ -104,7 +104,7 @@
                 ? "Nam"
                 : selectedAccount.gender === "FEMALE"
                   ? "Nữ"
-                  : selectedAccount.gender === "OTHER"
+                  : selectedAccount.gender === "UNDEFINED"
                     ? "Khác"
                     : "Chưa cập nhật"
             }}
