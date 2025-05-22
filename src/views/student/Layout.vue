@@ -8,6 +8,6 @@
 <script setup lang="ts">
 
 import LeftSideBar from './LeftSideBar.vue';
-import Header from './Header.vue';
+import Header from './header/Header.vue';
 
 </script>

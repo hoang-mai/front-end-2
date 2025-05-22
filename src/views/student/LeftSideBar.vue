@@ -23,5 +23,7 @@ const navItems = [
   { link: "/", name: "Trang chủ", icon: HomeOutlined },
   { link: "/schedule", name: "Thời khoá biểu", icon: CalendarOutlined },
   { link: "/class", name: "Lớp học", icon: ReadOutlined },
+  { link: "/subject", name: "Môn học", icon: ReadOutlined },
+  
 ];
 </script>

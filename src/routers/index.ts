@@ -15,6 +15,9 @@ import { default as AdminSubjectLayout } from "@/views/admin/subject/Layout.vue"
 import { default as AdminDetailSubject } from "@/views/admin/subject/DetailSubject.vue";
 import Announcement from "@/views/admin/announcement/Announcement.vue";
 import { default as AdminSubject } from "@/views/admin/subject/Subject.vue";
+import { default as StudentSubjectLayout } from "@/views/student/subject/Layout.vue";
+import { default as StudentSubject } from "@/views/student/subject/Subject.vue";
+import { default as StudentDetailSubject } from "@/views/student/subject/DetailSubject.vue";
 import User from "@/views/admin/user/User.vue";
 import Student from "@/views/admin/user/student/Student.vue";
 import Admin from "@/views/admin/user/admin/Admin.vue";
@@ -32,6 +35,12 @@ const routes = [
           { path: "", component: StudentHome },
           { path: "profile", component: StudentProfile },
           { path: "schedule", component: StudentSchedule },
+          { path: "subject", component: StudentSubjectLayout,
+            children: [
+              { path: "", component: StudentSubject },
+              { path: ":subjectId", component: StudentDetailSubject, name: "studentSubject" },
+            ]
+           },
         ],
       },
       { path: "teacher", component: TeacherLayout },
@@ -45,7 +54,7 @@ const routes = [
           { path: "subject", component: AdminSubjectLayout,
             children: [
               { path: "", component: AdminSubject },
-              { path: ":subjectId", component: AdminDetailSubject, name: "subject" },
+              { path: ":subjectId", component: AdminDetailSubject, name: "adminSubject" },
             ]
            },
           {

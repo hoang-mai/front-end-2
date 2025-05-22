@@ -1,18 +1,18 @@
 <template>
     <div class="p-6">
         <div class="mb-4">
-            <a-button type="primary" danger @click="showCreateSubjectModal = true" class="!flex !items-center">
+            <a-button type="primary" danger @click="showCreateHomeRoomModal = true" class="!flex !items-center">
                 <template #icon>
                     <PlusOutlined />
                 </template>
-                Tạo Môn Học
+                Tạo lớp học
             </a-button>
         </div>
 
-        <a-table :dataSource="subjects" :columns="columns" :pagination="pagination" @change="handleTableChange"
-            :customRow="(record: Subject) => ({
-                    onClick: () => handleRowClick(record),
-                })
+        <a-table :dataSource="homeRooms" :columns="columns" :pagination="pagination" @change="handleTableChange"
+            :customRow="(record: HomeRoom) => ({
+                onClick: () => handleRowClick(record),
+            })
                 " class="hover:cursor-pointer">
             <template #bodyCell="{ column, record }">
                 <template v-if="column.key === 'action'">
@@ -28,38 +28,35 @@
             </template>
         </a-table>
     </div>
-    <CreateSubject v-if="showCreateSubjectModal" v-model:open="showCreateSubjectModal" v-model:reload="reload" />
-    <EditSubject v-if="showEditSubjectModal && selectedSubject" v-model:open="showEditSubjectModal"
-        v-model:reload="reload" :subject="selectedSubject" />
+    <CreateHomeRoom v-if="showCreateHomeRoomModal" v-model:open="showCreateHomeRoomModal"
+        v-model:reload="reload" />
+    <EditHomeRoomModal v-if="showEditHomeRoomModal && selectedHomeRoom"
+        v-model:open="showEditHomeRoomModal" v-model:reload="reload" :HomeRoomId="selectedHomeRoom.id" />
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from "vue";
 import type { TableColumnsType } from "ant-design-vue";
-import CreateSubject from "../../admin/subject/CreateSubject.vue";
-import EditSubject from "../../admin/subject/EditSubject.vue";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons-vue";
-import { del, get } from "@/services/callApi";
-import { toast } from "vue3-toastify";
-import { adminGetAllSubjects } from "@/services/api";
-import { useRouter } from "vue-router";
+import CreateHomeRoom from "./CreateHomeRoom.vue";
+// import EditAnnouncementModal from "./EditAnnouncementModal.vue";
+// import DetailAnnouncementModal from "./DetailAnnouncementModal.vue";
 import dayjs from "dayjs";
+import { get } from "@/services/callApi";
+import { adminGetAllHomeRooms } from "@/services/api";
 
-const router = useRouter();
-interface Subject {
+interface HomeRoom {
     id: number;
     name: string;
-    code: string;
-    description: string;
-    totalClasses: number;
+    teacherId: number;
+    teacherName: string,
+    studentCount: number;
     createdAt: string;
     updatedAt: string;
 }
-
-const subjects = ref<Subject[]>([]);
-const selectedSubject = ref<Subject | null>(null);
-const showCreateSubjectModal = ref(false);
-const showEditSubjectModal = ref(false);
+const homeRooms = ref<HomeRoom[]>([]);
+const selectedHomeRoom = ref<HomeRoom | null>(null);
+const showCreateHomeRoomModal = ref(false);
+const showEditHomeRoomModal = ref(false);
 const reload = ref(false);
 
 const pagination = reactive({
@@ -76,24 +73,19 @@ const pagination = reactive({
 
 const columns: TableColumnsType = [
     {
-        title: "Mã môn học",
-        dataIndex: "code",
-        key: "code",
-    },
-    {
-        title: "Tên môn học",
+        title: "Tên lớp",
         dataIndex: "name",
         key: "name",
     },
     {
-        title: "Mô tả",
-        dataIndex: "description",
-        key: "description",
+        title: "Tên giáo viên",
+        dataIndex: "teacherName",
+        key: "teacherName",
     },
     {
-        title: "Số lớp học",
-        dataIndex: "totalClasses",
-        key: "totalClasses",
+        title: "Số lượng học sinh",
+        dataIndex: "studentCount",
+        key: "studentCount",
     },
     {
         title: "Ngày tạo",
@@ -117,53 +109,48 @@ watch(
     () => reload.value,
     (newValue) => {
         if (newValue) {
-            fetchSubjects(pagination.current, pagination.pageSize);
+            fetchAnnouncements(pagination.current, pagination.pageSize);
             reload.value = false;
         }
     }
 );
+
 const formatDate = (date: string) => {
-  return dayjs(date).format("DD-MM-YYYY");
+    return dayjs(date).format("DD-MM-YYYY");
 };
+
+
 const handleTableChange = (pagination: {
     current: number;
     pageSize: number;
 }) => {
-    fetchSubjects(pagination.current, pagination.pageSize);
+    fetchAnnouncements(pagination.current, pagination.pageSize);
 };
+const handleRowClick = (record: HomeRoom) => {
 
-const handleRowClick = (record: Subject) => {
-    router.push({
-        name: "adminSubject",
-        params: {
-            subjectId: record.id,
-        },
-    });
 };
-
-const handleEdit = (record: Subject) => {
-    showEditSubjectModal.value = true;
-    selectedSubject.value = record;
+const handleEdit = (record: HomeRoom) => {
+    showEditHomeRoomModal.value = true;
+    selectedHomeRoom.value = record;
 };
 
 
-const fetchSubjects = (page: number, size: number) => {
-    get(adminGetAllSubjects, {
+const fetchAnnouncements = (page: number, size: number) => {
+    get(adminGetAllHomeRooms, {
         page: page - 1,
         size: size,
     }).then((res) => {
         if (res.code !== 200) {
             throw new Error(res.message);
         }
-        subjects.value = res.data.subjects;
-        pagination.total = res.data.paging.totalElements;
-        pagination.current = res.data.paging.page + 1;
-        pagination.pageSize = res.data.paging.size;
+        homeRooms.value = res.data;
+        pagination.total = res.paging.totalElements;
+        pagination.current = res.paging.page + 1;
+        pagination.pageSize = res.paging.size;
     });
 };
-
 onMounted(() => {
-    fetchSubjects(pagination.current, pagination.pageSize);
+    fetchAnnouncements(pagination.current, pagination.pageSize);
 });
 </script>
 

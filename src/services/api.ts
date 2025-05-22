@@ -20,11 +20,15 @@ export const adminSubject ='/api/v1/admin/subject'
 export const adminCreateSubject ='/api/v1/admin/subject/create'
 export const adminGetAllSubjects ='/api/v1/admin/subject/all'
 export const adminUpdateSubject ='/api/v1/admin/subject/update'
+export const adminGetAllHomeRooms ='/api/v1/admin/homeroom/all'
+export const adminCreateHomeRoom ='/api/v1/admin/homeroom/create'
 
 
 //student
 export const studentChangeAccountPassword ='/api/v1/student/account/change-password'
 export const studentInformation ='/api/v1/student/information'
+export const studentGetAllSubjects ='/api/v1/student/subject/all'
+export const studentSubject='/api/v1/student/subject'
 
 //search
 export const searchUser='/api/v1/search/user'

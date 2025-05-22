@@ -1,47 +1,21 @@
 <template>
     <div class="p-6">
-        <div class="mb-4">
-            <a-button type="primary" danger @click="showCreateSubjectModal = true" class="!flex !items-center">
-                <template #icon>
-                    <PlusOutlined />
-                </template>
-                Tạo Môn Học
-            </a-button>
-        </div>
+
 
         <a-table :dataSource="subjects" :columns="columns" :pagination="pagination" @change="handleTableChange"
             :customRow="(record: Subject) => ({
-                    onClick: () => handleRowClick(record),
-                })
+                onClick: () => handleRowClick(record),
+            })
                 " class="hover:cursor-pointer">
-            <template #bodyCell="{ column, record }">
-                <template v-if="column.key === 'action'">
-                    <a-space>
-                        <a-button type="link" @click.stop="handleEdit(record)" style="color: green">
-                            <template #icon>
-                                <EditOutlined />
-                            </template>
-                            Sửa
-                        </a-button>
-                    </a-space>
-                </template>
-            </template>
         </a-table>
     </div>
-    <CreateSubject v-if="showCreateSubjectModal" v-model:open="showCreateSubjectModal" v-model:reload="reload" />
-    <EditSubject v-if="showEditSubjectModal && selectedSubject" v-model:open="showEditSubjectModal"
-        v-model:reload="reload" :subject="selectedSubject" />
 </template>
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, watch } from "vue";
 import type { TableColumnsType } from "ant-design-vue";
-import CreateSubject from "../../admin/subject/CreateSubject.vue";
-import EditSubject from "../../admin/subject/EditSubject.vue";
-import { PlusOutlined, EditOutlined, DeleteOutlined } from "@ant-design/icons-vue";
-import { del, get } from "@/services/callApi";
-import { toast } from "vue3-toastify";
-import { adminGetAllSubjects } from "@/services/api";
+import { get } from "@/services/callApi";
+import { studentGetAllSubjects } from "@/services/api";
 import { useRouter } from "vue-router";
 import dayjs from "dayjs";
 
@@ -51,15 +25,13 @@ interface Subject {
     name: string;
     code: string;
     description: string;
+    enrolledClasses : number;
     totalClasses: number;
     createdAt: string;
     updatedAt: string;
 }
 
 const subjects = ref<Subject[]>([]);
-const selectedSubject = ref<Subject | null>(null);
-const showCreateSubjectModal = ref(false);
-const showEditSubjectModal = ref(false);
 const reload = ref(false);
 
 const pagination = reactive({
@@ -91,6 +63,11 @@ const columns: TableColumnsType = [
         key: "description",
     },
     {
+        title: "Số lớp đã tham gia",
+        dataIndex: "enrolledClasses",
+        key: "enrolledClasses",
+    },
+    {
         title: "Số lớp học",
         dataIndex: "totalClasses",
         key: "totalClasses",
@@ -106,11 +83,7 @@ const columns: TableColumnsType = [
         dataIndex: "updatedAt",
         key: "updatedAt",
         customRender: ({ text }: { text: string }) => formatDate(text),
-    },
-    {
-        title: "Thao tác",
-        key: "action",
-    },
+    }
 ];
 
 watch(
@@ -123,7 +96,7 @@ watch(
     }
 );
 const formatDate = (date: string) => {
-  return dayjs(date).format("DD-MM-YYYY");
+    return dayjs(date).format("DD-MM-YYYY");
 };
 const handleTableChange = (pagination: {
     current: number;
@@ -134,21 +107,17 @@ const handleTableChange = (pagination: {
 
 const handleRowClick = (record: Subject) => {
     router.push({
-        name: "adminSubject",
+        name: "studentSubject",
         params: {
             subjectId: record.id,
         },
     });
 };
 
-const handleEdit = (record: Subject) => {
-    showEditSubjectModal.value = true;
-    selectedSubject.value = record;
-};
 
 
 const fetchSubjects = (page: number, size: number) => {
-    get(adminGetAllSubjects, {
+    get(studentGetAllSubjects, {
         page: page - 1,
         size: size,
     }).then((res) => {

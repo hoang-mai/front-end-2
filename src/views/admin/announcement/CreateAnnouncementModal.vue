@@ -103,10 +103,10 @@ const formState = reactive<FormState>({
 
 const rules = {
   title: [
-    { required: true, message: "Vui lòng nhập tiêu đề", trigger: "blur" },
+    { required: true, message: "Vui lòng nhập tiêu đề" },
   ],
   content: [
-    { required: true, message: "Vui lòng nhập nội dung", trigger: "blur" },
+    { required: true, message: "Vui lòng nhập nội dung" },
   ],
   target: [
     { required: true, message: "Vui lòng chọn đối tượng", trigger: "change" },
