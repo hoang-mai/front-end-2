@@ -104,6 +104,14 @@
                 </div>
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
+               <a-menu-item class="hover:!text-[var(--color-text-red)]">
+                <RouterLink to="/profile">
+                  <div class="flex items-center gap-1 text-base">
+                    <UserOutlined />
+                    <span>Thông tin cá nhân</span>
+                  </div>
+                </RouterLink>
+              </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
                 <button class="flex items-center gap-1 text-base" @click="openChangePassword = true">
                   <LockOutlined />
@@ -222,7 +230,7 @@
 </template>
 
 <script setup lang="ts">
-import { logout, adminChangeAccountPassword, searchUser } from "@/services/api";
+import { logout, studentChangeAccountPassword, searchUser } from "@/services/api";
 import { post, get } from "@/services/callApi";
 import { useUserStore } from "@/stores/user";
 import {
@@ -296,7 +304,7 @@ const handleChangePassword = () => {
   loadingChangePassword.value = true;
 
   toast.promise(
-    post(adminChangeAccountPassword, {
+    post(studentChangeAccountPassword, {
       currentPassword: oldPassword.value,
       newPassword: newPassword.value,
     }).then((res) => {

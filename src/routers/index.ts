@@ -21,6 +21,12 @@ import { default as StudentDetailSubject } from "@/views/student/subject/DetailS
 import User from "@/views/admin/user/User.vue";
 import Student from "@/views/admin/user/student/Student.vue";
 import Admin from "@/views/admin/user/admin/Admin.vue";
+import Teacher from "@/views/admin/user/teacher/Teacher.vue";
+import { default as TeacherSubjectLayout } from "@/views/teacher/subject/Layout.vue";
+import { default as TeacherSubject } from "@/views/teacher/subject/Subject.vue";
+import { default as TeacherDetailSubject } from "@/views/teacher/subject/DetailSubject.vue";
+import { default as TeacherHome } from "@/views/teacher/Home.vue";
+import { default as TeacherProfile } from "@/views/teacher/profile/Profile.vue";
 const routes = [
   { path: "/login", component: Login },
 
@@ -35,15 +41,28 @@ const routes = [
           { path: "", component: StudentHome },
           { path: "profile", component: StudentProfile },
           { path: "schedule", component: StudentSchedule },
-          { path: "subject", component: StudentSubjectLayout,
+          {
+            path: "subject", component: StudentSubjectLayout,
             children: [
               { path: "", component: StudentSubject },
               { path: ":subjectId", component: StudentDetailSubject, name: "studentSubject" },
             ]
-           },
+          },
         ],
       },
-      { path: "teacher", component: TeacherLayout },
+      { path: "teacher", component: TeacherLayout,
+        children: [
+          { path: "", component: TeacherHome },
+          { path: "profile", component: TeacherProfile },
+          {
+            path: "subject", component: TeacherSubjectLayout,
+            children: [
+              { path: "", component: TeacherSubject },
+              { path: ":subjectId", component: TeacherDetailSubject, name: "teacherSubject" },
+            ]
+          },
+        ]
+       },
       {
         path: "admin",
         component: AdminLayout,
@@ -51,12 +70,13 @@ const routes = [
           { path: "", component: AdminHome },
           { path: "account", component: Account },
           { path: "announcement", component: Announcement },
-          { path: "subject", component: AdminSubjectLayout,
+          {
+            path: "subject", component: AdminSubjectLayout,
             children: [
               { path: "", component: AdminSubject },
               { path: ":subjectId", component: AdminDetailSubject, name: "adminSubject" },
             ]
-           },
+          },
           {
             path: "users",
             component: UserLayout,
@@ -67,8 +87,8 @@ const routes = [
                 name: "student",
                 component: Student,
               },
-              // { path: "teacher/:teacherId", component: UserCreate },
-              { path: "admin/:adminId", component: Admin , name: "admin"},
+              { path: "teacher/:teacherId", component: Teacher, name: "teacher" },
+              { path: "admin/:adminId", component: Admin, name: "admin" },
             ],
           },
         ],

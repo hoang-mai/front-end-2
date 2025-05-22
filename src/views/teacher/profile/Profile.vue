@@ -157,7 +157,7 @@ import {
 import EditProfile from './EditProfile.vue';
 import dayjs from 'dayjs';
 import { get } from "@/services/callApi";
-import { adminGetUserTeacher } from "@/services/api";
+import { teacherInformation } from "@/services/api";
 import { toast } from "vue3-toastify";
 import { useRoute } from "vue-router";
 const defaultStudentProfile: TeacherProfile = {
@@ -230,7 +230,7 @@ watch(reload, (newValue) => {
     }
 });
 const fetchProfile = () => {
-    get(adminGetUserTeacher + `/${route.params.teacherId}`).then((res) => {
+    get(teacherInformation).then((res) => {
         if (res.code === 200) {
             profile.value = res.data;
         } else {

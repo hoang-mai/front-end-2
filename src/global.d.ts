@@ -41,6 +41,7 @@ declare global {
   type Gender = "MALE" | "FEMALE" | "UNDEFINED";
   type Role = "STUDENT" | "TEACHER" | "ADMIN";
   type Status = "ACTIVE" | "INACTIVE";
+  type DiplomaLevel = "HIGH_SCHOOL" | "VOCATIONAL" | "ASSOCIATE" | "DIPLOMA" | "ADVANCED_DIPLOMA" | "BACHELOR" | "POSTGRADUATE_DIPLOMA" | "MASTER" | "DOCTORATE";
 
   interface Announcement {
     id: number;

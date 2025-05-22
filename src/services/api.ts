@@ -16,6 +16,8 @@ export const adminGetUserStudent ='/api/v1/admin/users/student'
 export const adminUpdateUserStudent ='/api/v1/admin/users/update/student'
 export const adminGetUserAdmin ='/api/v1/admin/users/admin'
 export const adminUpdateUserAdmin ='/api/v1/admin/users/update/admin'
+export const adminGetUserTeacher ='/api/v1/admin/users/teacher'
+export const adminUpdateUserTeacher ='/api/v1/admin/users/update/teacher'
 export const adminSubject ='/api/v1/admin/subject'
 export const adminCreateSubject ='/api/v1/admin/subject/create'
 export const adminGetAllSubjects ='/api/v1/admin/subject/all'
@@ -29,6 +31,12 @@ export const studentChangeAccountPassword ='/api/v1/student/account/change-passw
 export const studentInformation ='/api/v1/student/information'
 export const studentGetAllSubjects ='/api/v1/student/subject/all'
 export const studentSubject='/api/v1/student/subject'
+
+//teacher
+export const teacherChangeAccountPassword ='/api/v1/teacher/account/change-password'
+export const teacherInformation ='/api/v1/teacher/information'
+export const teacherGetAllSubjects ='/api/v1/teacher/subject/all'
+export const teacherSubject='/api/v1/teacher/subject'
 
 //search
 export const searchUser='/api/v1/search/user'

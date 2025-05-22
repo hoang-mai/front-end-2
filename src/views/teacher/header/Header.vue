@@ -1,37 +1,11 @@
 <template>
   <header
-    class="max-w-[1920px] mx-auto fixed top-0 z-1000 bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full"
-  >
+    class="max-w-[1920px] mx-auto fixed top-0 z-1000 bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full">
     <div class="absolute left-4 flex items-center gap-2">
-      <img
-        src="@/assets/images/logo.ico"
-        alt="Logo"
-        class="w-10 h-10 rounded-full object-cover"
-      />
-
-      <a-input-search
-        :style="{
-          borderColor: 'var(--color-border-gray)',
-        }"
-        class="sm:!w-20 md:!w-36 lg:!w-56"
-        @focus="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
-        @blur="(e: Event) => ((e.target as HTMLInputElement).style.borderColor = 'var(--color-border-gray)')"
-        :placeholder="'Tìm kiếm'"
-      >
-        <template #enterButton>
-          <a-button
-            type="primary"
-            class="!w-8 sm:!w-9 md:!p-1"
-            style="
-              background-color: var(--color-border-gray);
-              border-color: var(--color-border-gray);
-            "
-          >
-            <SearchOutlined class="!text-[var(--color-text-red)] text-lg" />
-          </a-button>
-        </template>
-      </a-input-search>
+      <img src="@/assets/images/logo.ico" alt="Logo" class="w-10 h-10 rounded-full object-cover" />
+      <Search/>
     </div>
+
 
     <p class="text-2xl font-bold">Hệ thống thông tin trường học</p>
 
@@ -103,37 +77,20 @@
           </p>
           <p v-else>Nguyen Van A</p>
         </template>
-        <a-dropdown
-          placement="bottomRight"
-          :arrow="{ pointAtCenter: true }"
-          :trigger="['click']"
-        >
-          <img
-            v-if="userStore.userState && userStore.userState.avatarUrl"
-            :src="userStore.userState.avatarUrl"
-            alt="Avatar"
-            class="w-9 h-9 rounded-full"
-          />
-          <div
-            v-else
-            class="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center"
-          >
+        <a-dropdown placement="bottomRight" :arrow="{ pointAtCenter: true }" :trigger="['click']">
+          <img v-if="userStore.userState && userStore.userState.avatarUrl" :src="userStore.userState.avatarUrl"
+            alt="Avatar" class="w-9 h-9 rounded-full" />
+          <div v-else class="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center">
             <component :is="UserOutlined" class="text-xl" />
           </div>
           <template #overlay>
             <a-menu class="!p-2">
               <a-menu-item class="!cursor-text hover:!bg-transparent">
                 <div class="flex flex-row items-center">
-                  <img
-                    v-if="userStore.userState && userStore.userState.avatarUrl"
-                    :src="userStore.userState.avatarUrl"
-                    alt="Avatar"
-                    class="w-12 h-12 rounded-full mb-2 object-cover"
-                  />
-                  <div
-                    v-else
-                    class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mb-2 text-(--color-text-white)"
-                  >
+                  <img v-if="userStore.userState && userStore.userState.avatarUrl" :src="userStore.userState.avatarUrl"
+                    alt="Avatar" class="w-12 h-12 rounded-full mb-2 object-cover" />
+                  <div v-else
+                    class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mb-2 text-(--color-text-white)">
                     <component :is="UserOutlined" class="text-2xl text-white" />
                   </div>
                   <div class="flex flex-col ml-4">
@@ -147,7 +104,7 @@
                 </div>
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
-              <a-menu-item class="hover:!text-[var(--color-text-red)]">
+               <a-menu-item class="hover:!text-[var(--color-text-red)]">
                 <RouterLink to="/teacher/profile">
                   <div class="flex items-center gap-1 text-base">
                     <UserOutlined />
@@ -156,10 +113,7 @@
                 </RouterLink>
               </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
-                <button
-                  class="flex items-center gap-1 text-base"
-                  @click="openChangePassword = true"
-                >
+                <button class="flex items-center gap-1 text-base" @click="openChangePassword = true">
                   <LockOutlined />
                   <span>Đổi mật khẩu</span>
                 </button>
@@ -180,9 +134,7 @@
   </header>
   <a-modal v-model:open="openChangePassword" @ok="handleChangePassword">
     <template #closeIcon>
-      <span
-        class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all"
-      >
+      <span class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all">
         <CloseOutlined class="text-lg" />
       </span>
     </template>
@@ -198,32 +150,17 @@
         <label for="oldPassword" class="text-base font-medium">
           Mật khẩu cũ<strong class="text-red-500">*</strong>
         </label>
-        <a-input-password
-          v-model:value="oldPassword"
-          :placeholder="'Nhập mật khẩu cũ'"
-          :size="'large'"
-          :prefix-icon="LockOutlined"
-          :show-password="true"
-          :style="{ borderColor: 'var(--color-border-gray)' }"
-        />
+        <a-input-password v-model:value="oldPassword" :placeholder="'Nhập mật khẩu cũ'" :size="'large'"
+          :prefix-icon="LockOutlined" :show-password="true" :style="{ borderColor: 'var(--color-border-gray)' }" />
       </div>
       <div class="flex flex-col gap-2">
         <label for="newPassword" class="text-base font-medium">
           Mật khẩu mới<strong class="text-red-500">*</strong>
         </label>
         <div>
-          <a-input-password
-            v-model:value="newPassword"
-            :placeholder="'Nhập mật khẩu mới'"
-            :size="'large'"
-            :style="{ borderColor: 'var(--color-border-gray)' }"
-            :prefix-icon="LockOutlined"
-            :show-password="true"
-          />
-          <p
-            v-if="newPassword.length > 0 && newPassword.length < 8"
-            class="text-red-500 text-sm"
-          >
+          <a-input-password v-model:value="newPassword" :placeholder="'Nhập mật khẩu mới'" :size="'large'"
+            :style="{ borderColor: 'var(--color-border-gray)' }" :prefix-icon="LockOutlined" :show-password="true" />
+          <p v-if="newPassword.length > 0 && newPassword.length < 8" class="text-red-500 text-sm">
             Mật khẩu phải có ít nhất 8 ký tự
           </p>
           <p v-else class="h-5"></p>
@@ -234,19 +171,10 @@
           Xác nhận mật khẩu mới<strong class="text-red-500">*</strong>
         </label>
         <div>
-          <a-input-password
-            v-model:value="confirmPassword"
-            :placeholder="'Xác nhận mật khẩu mới'"
-            :size="'large'"
-            :prefix-icon="LockOutlined"
-            :style="{ borderColor: 'var(--color-border-gray)' }"
-            :show-password="true"
-            autocomplete="off"
-          />
-          <p
-            v-if="confirmPassword !== newPassword && confirmPassword.length > 0"
-            class="text-red-500 text-sm"
-          >
+          <a-input-password v-model:value="confirmPassword" :placeholder="'Xác nhận mật khẩu mới'" :size="'large'"
+            :prefix-icon="LockOutlined" :style="{ borderColor: 'var(--color-border-gray)' }" :show-password="true"
+            autocomplete="off" />
+          <p v-if="confirmPassword !== newPassword && confirmPassword.length > 0" class="text-red-500 text-sm">
             Mật khẩu xác nhận không khớp
           </p>
           <p v-else class="h-5"></p>
@@ -256,19 +184,16 @@
     <template #footer>
       <button
         class="bg-(--color-bg-white) text-(--color-text-red) px-6 py-2 rounded-2xl mr-4 border text-base font-medium"
-        @click="handleCancel"
-      >
+        @click="handleCancel">
         Hủy bỏ
       </button>
-      <button
-        class="bg-(--color-text-red) text-(--color-text-white) px-6 py-2 rounded-2xl text-base font-medium"
-        @click="handleChangePassword"
-      >
+      <button class="bg-(--color-text-red) text-(--color-text-white) px-6 py-2 rounded-2xl text-base font-medium"
+        @click="handleChangePassword">
         Lưu mật khẩu
       </button>
     </template>
   </a-modal>
-  <a-modal
+<a-modal
     v-if="selectedAnnouncement"
     v-model:open="openAnnouncement"
     :width="800"
@@ -305,29 +230,31 @@
 </template>
 
 <script setup lang="ts">
-import { logout } from "@/services/api";
-import { post } from "@/services/callApi";
+import { logout, teacherChangeAccountPassword, searchUser } from "@/services/api";
+import { post, get } from "@/services/callApi";
 import { useUserStore } from "@/stores/user";
 import {
   UserOutlined,
   LogoutOutlined,
   LockOutlined,
   CloseOutlined,
-  BellFilled,
+  SearchOutlined,
 } from "@ant-design/icons-vue";
-import { ref } from "vue";
-import { RouterLink, useRouter } from "vue-router";
+
+import { ref, onMounted, onUnmounted } from "vue";
+import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
+import Search from "./Search.vue";
+
+const loadingAnnouncement = ref<boolean>(false);
 const router = useRouter();
 const loadingChangePassword = ref<boolean>(false);
-const loadingAnnouncement = ref<boolean>(false);
 const openChangePassword = ref<boolean>(false);
-const openAnnouncement = ref<boolean>(false);
 const form = ref();
 const oldPassword = ref<string>("");
 const newPassword = ref<string>("");
 const confirmPassword = ref<string>("");
-const countNotification = ref<number>(1);
+const openAnnouncement = ref<boolean>(false);
 const announcement = ref<Announcement[]>([
   {
     id: 1,
@@ -347,6 +274,16 @@ const announcement = ref<Announcement[]>([
 const selectedAnnouncement = ref<Announcement | null>(null);
 const userStore = useUserStore();
 
+const handleClickAnnouncement = () => {
+  loadingAnnouncement.value = true;
+  setTimeout(() => {
+    loadingAnnouncement.value = false;
+  }, 2000);
+};
+const handleClickAnnouncementId = (item: Announcement) => {
+  selectedAnnouncement.value = item;
+  openAnnouncement.value = true;
+};
 const handleCancel = () => {
   openChangePassword.value = false;
 };
@@ -366,22 +303,28 @@ const handleChangePassword = () => {
   }
   loadingChangePassword.value = true;
 
-  toast.success("Đổi mật khẩu thành công");
-
-  loadingChangePassword.value = false;
-  openChangePassword.value = false;
+  toast.promise(
+    post(teacherChangeAccountPassword, {
+      currentPassword: oldPassword.value,
+      newPassword: newPassword.value,
+    }).then((res) => {
+      if (res.code !== 202) {
+        throw new Error("Đổi mật khẩu thất bại");
+      } else {
+        openChangePassword.value = false;
+        oldPassword.value = "";
+        newPassword.value = "";
+        confirmPassword.value = "";
+        loadingChangePassword.value = false;
+      }
+    }),
+    {
+      pending: "Đang đổi mật khẩu...",
+      success: "Đổi mật khẩu thành công",
+      error: "Đổi mật khẩu thất bại",
+    });
 };
 
-const handleClickAnnouncement = () => {
-  loadingAnnouncement.value = true;
-  setTimeout(() => {
-    loadingAnnouncement.value = false;
-  }, 2000);
-};
-const handleClickAnnouncementId = (item: Announcement) => {
-  selectedAnnouncement.value = item;
-  openAnnouncement.value = true;
-};
 const handleLogout = () => {
   userStore.setUser(null);
   toast.promise(
@@ -392,9 +335,15 @@ const handleLogout = () => {
       error: "Đăng xuất thất bại",
     }
   ).finally(() => {
-        localStorage.removeItem("accessToken");
-        localStorage.removeItem("refreshToken");
-        router.replace("/login");
-    });
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    router.replace("/login");
+  });
 };
 </script>
+
+<style scoped>
+.search-result-item:hover {
+  background-color: rgba(var(--color-bg-red), 0.1);
+}
+</style>

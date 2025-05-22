@@ -187,7 +187,7 @@ const handleRowClick = (record: User) => {
     router.push({ name: "admin", params: { adminId: record.adminId } });
   } else if (record.role === "TEACHER") {
     // Redirect to teacher detail page
-    router.push({ name: "teacher", params: { id: record.teacherId } });
+    router.push({ name: "teacher", params: { teacherId: record.teacherId } });
   } else if (record.role === "STUDENT") {
     // Redirect to student detail page
     router.push({ name: "student", params: { studentId: record.studentId } });
