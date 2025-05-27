@@ -49,6 +49,7 @@
 import { ref, onMounted, reactive } from 'vue';
 import { get, patch, put } from '@/services/callApi';
 import { adminUpdateSubject } from '@/services/api';
+import { toast } from 'vue3-toastify';
 
 const { open, subject } = defineProps<{
     open: boolean;
@@ -86,11 +87,19 @@ const handleCancel = () => {
 };
 
 const handleOk = () => {
-    patch(adminUpdateSubject, {...formState})
-        .then((res) => {
-            if (res.code !== 200) {
-                throw new Error(res.message);
-            }
+    toast.promise(
+        patch(adminUpdateSubject, { ...formState })
+            .then((res) => {
+                if (res.code !== 202) {
+                    throw new Error(res.message);
+                }
+                
+            }),
+        {
+            pending: 'Đang cập nhật thông tin',
+            success: 'Cập nhật thông tin thành công',
+            error: 'Cập nhật thông tin thất bại',
+        }).then(() => {
             emit('update:open', false);
             emit('update:reload', true);
         });

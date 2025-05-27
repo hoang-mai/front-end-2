@@ -42,13 +42,7 @@ declare global {
   type Role = "STUDENT" | "TEACHER" | "ADMIN";
   type Status = "ACTIVE" | "INACTIVE";
   type DiplomaLevel = "HIGH_SCHOOL" | "VOCATIONAL" | "ASSOCIATE" | "DIPLOMA" | "ADVANCED_DIPLOMA" | "BACHELOR" | "POSTGRADUATE_DIPLOMA" | "MASTER" | "DOCTORATE";
+  type HomeRoomStatus= "ANTICIPATED" | "EXPELLED" | "GRADUATED";
+  type DayOfWeek = "MON" | "TUES" | "WED" | "THUS" | "FRI" | "SAT" | "SUN";
 
-  interface Announcement {
-    id: number;
-    title: string | null;
-    content: string | null;
-    createdAt: Date | null;
-    updatedAt: Date | null;
-  }
-  
 }

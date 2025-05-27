@@ -16,11 +16,12 @@
 import {
   HomeOutlined,
   ReadOutlined,
+  TeamOutlined,
   CalendarOutlined,
 } from "@ant-design/icons-vue";
 
 const navItems = [
-  { link: "/teacher/", name: "Trang chủ", icon: HomeOutlined },
+  { link: "/teacher/homeroom", name: "Lớp chủ nhiệm", icon: HomeOutlined },
   { link: "/teacher/schedule", name: "Thời khoá biểu", icon: CalendarOutlined },
   { link: "/teacher/class", name: "Lớp học", icon: ReadOutlined },
   { link: "/teacher/subject", name: "Môn học", icon: ReadOutlined },

@@ -1,11 +1,15 @@
 <template>
   <header
-    class="max-w-[1920px] mx-auto fixed top-0 z-1000 bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full">
+    class="max-w-[1920px] mx-auto fixed top-0 z-1000 bg-(--color-bg-red) text-(--color-text-white) p-4 flex justify-center items-center w-full"
+  >
     <div class="absolute left-4 flex items-center gap-2">
-      <img src="@/assets/images/logo.ico" alt="Logo" class="w-10 h-10 rounded-full object-cover" />
-      <Search/>
+      <img
+        src="@/assets/images/logo.ico"
+        alt="Logo"
+        class="w-10 h-10 rounded-full object-cover"
+      />
+      <Search />
     </div>
-
 
     <p class="text-2xl font-bold">Hệ thống thông tin trường học</p>
 
@@ -19,23 +23,18 @@
           :arrow="{ pointAtCenter: true }"
           :trigger="['click']"
           placement="bottomRight"
-          @click="handleClickAnnouncement"
         >
           <a-badge :count="countNotification" :color="'var(--color-text-red)'">
             <BellFilled class="!text-yellow-400 text-xl" />
           </a-badge>
           <template #overlay>
-            <a-menu class="!p-2 w-96">
+            <a-menu class="!p-2 w-96 max-h-80 overflow-y-auto">
               <a-menu-item class="!cursor-text hover:!bg-transparent">
                 <span class="text-lg font-bold">Thông báo</span>
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
-              <a-menu-item v-if="loadingAnnouncement">
-                <a-skeleton active avatar />
-                <hr class="my-2 border-(--color-border-gray)" />
-                <a-skeleton active avatar />
-              </a-menu-item>
-              <a-menu-item v-else-if="announcement.length === 0">
+
+              <a-menu-item v-if="announcement.length === 0">
                 <p class="text-center text-gray-500">Không có thông báo nào</p>
               </a-menu-item>
               <a-menu-item
@@ -52,20 +51,20 @@
                   />
                   <div class="flex flex-col gap-2">
                     <p class="text-lg font-bold">{{ item.title }}</p>
-                    <p class="text-sm text-gray-500">{{ item.content }}</p>
-                    <p class="text-xs text-gray-400">234324</p>
+                    <p class="text-sm text-gray-500">
+                      {{ item.contentPreview }}
+                    </p>
                   </div>
                 </div>
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
-              <button
-                v-if="loadingAnnouncement !== true && announcement.length > 0"
-                class="w-full text-left"
+              <a-menu-item
+                v-if="!outOfNotification"
+                class="text-center !text-(--color-text-blue)"
+                @click.native.stop.prevent="handleClickAnnouncement"
               >
-                <a-menu-item class="text-center !text-(--color-text-blue)">
-                  Xem thêm
-                </a-menu-item>
-              </button>
+                <span @click.stop="handleClickAnnouncement">Xem thêm</span>
+              </a-menu-item>
             </a-menu>
           </template>
         </a-dropdown>
@@ -77,20 +76,37 @@
           </p>
           <p v-else>Nguyen Van A</p>
         </template>
-        <a-dropdown placement="bottomRight" :arrow="{ pointAtCenter: true }" :trigger="['click']">
-          <img v-if="userStore.userState && userStore.userState.avatarUrl" :src="userStore.userState.avatarUrl"
-            alt="Avatar" class="w-9 h-9 rounded-full" />
-          <div v-else class="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center">
+        <a-dropdown
+          placement="bottomRight"
+          :arrow="{ pointAtCenter: true }"
+          :trigger="['click']"
+        >
+          <img
+            v-if="userStore.userState && userStore.userState.avatarUrl"
+            :src="userStore.userState.avatarUrl"
+            alt="Avatar"
+            class="w-9 h-9 rounded-full"
+          />
+          <div
+            v-else
+            class="w-9 h-9 bg-red-600 rounded-full flex items-center justify-center"
+          >
             <component :is="UserOutlined" class="text-xl" />
           </div>
           <template #overlay>
             <a-menu class="!p-2">
               <a-menu-item class="!cursor-text hover:!bg-transparent">
                 <div class="flex flex-row items-center">
-                  <img v-if="userStore.userState && userStore.userState.avatarUrl" :src="userStore.userState.avatarUrl"
-                    alt="Avatar" class="w-12 h-12 rounded-full mb-2 object-cover" />
-                  <div v-else
-                    class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mb-2 text-(--color-text-white)">
+                  <img
+                    v-if="userStore.userState && userStore.userState.avatarUrl"
+                    :src="userStore.userState.avatarUrl"
+                    alt="Avatar"
+                    class="w-12 h-12 rounded-full mb-2 object-cover"
+                  />
+                  <div
+                    v-else
+                    class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mb-2 text-(--color-text-white)"
+                  >
                     <component :is="UserOutlined" class="text-2xl text-white" />
                   </div>
                   <div class="flex flex-col ml-4">
@@ -98,13 +114,13 @@
                       {{ userStore.userState?.fullName || "Nguyen Van A" }}
                     </div>
                     <div class="text-gray-500 text-sm">
-                      {{ userStore.userState?.username || "example@email.com" }}
+                      {{ userStore.userState?.email || "example@email.com" }}
                     </div>
                   </div>
                 </div>
                 <hr class="my-2 border-(--color-border-gray)" />
               </a-menu-item>
-               <a-menu-item class="hover:!text-[var(--color-text-red)]">
+              <a-menu-item class="hover:!text-[var(--color-text-red)]">
                 <RouterLink to="/profile">
                   <div class="flex items-center gap-1 text-base">
                     <UserOutlined />
@@ -113,13 +129,16 @@
                 </RouterLink>
               </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
-                <button class="flex items-center gap-1 text-base" @click="openChangePassword = true">
+                <button
+                  class="flex items-center gap-1 text-base"
+                  @click="openChangePassword = true"
+                >
                   <LockOutlined />
                   <span>Đổi mật khẩu</span>
                 </button>
               </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
-                <button @click="handleLogout">
+                <button @click.stop="handleLogout">
                   <div class="flex items-center gap-1 text-base">
                     <LogoutOutlined />
                     <span>Đăng xuất</span>
@@ -134,7 +153,9 @@
   </header>
   <a-modal v-model:open="openChangePassword" @ok="handleChangePassword">
     <template #closeIcon>
-      <span class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all">
+      <span
+        class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all"
+      >
         <CloseOutlined class="text-lg" />
       </span>
     </template>
@@ -150,17 +171,32 @@
         <label for="oldPassword" class="text-base font-medium">
           Mật khẩu cũ<strong class="text-red-500">*</strong>
         </label>
-        <a-input-password v-model:value="oldPassword" :placeholder="'Nhập mật khẩu cũ'" :size="'large'"
-          :prefix-icon="LockOutlined" :show-password="true" :style="{ borderColor: 'var(--color-border-gray)' }" />
+        <a-input-password
+          v-model:value="oldPassword"
+          :placeholder="'Nhập mật khẩu cũ'"
+          :size="'large'"
+          :prefix-icon="LockOutlined"
+          :show-password="true"
+          :style="{ borderColor: 'var(--color-border-gray)' }"
+        />
       </div>
       <div class="flex flex-col gap-2">
         <label for="newPassword" class="text-base font-medium">
           Mật khẩu mới<strong class="text-red-500">*</strong>
         </label>
         <div>
-          <a-input-password v-model:value="newPassword" :placeholder="'Nhập mật khẩu mới'" :size="'large'"
-            :style="{ borderColor: 'var(--color-border-gray)' }" :prefix-icon="LockOutlined" :show-password="true" />
-          <p v-if="newPassword.length > 0 && newPassword.length < 8" class="text-red-500 text-sm">
+          <a-input-password
+            v-model:value="newPassword"
+            :placeholder="'Nhập mật khẩu mới'"
+            :size="'large'"
+            :style="{ borderColor: 'var(--color-border-gray)' }"
+            :prefix-icon="LockOutlined"
+            :show-password="true"
+          />
+          <p
+            v-if="newPassword.length > 0 && newPassword.length < 8"
+            class="text-red-500 text-sm"
+          >
             Mật khẩu phải có ít nhất 8 ký tự
           </p>
           <p v-else class="h-5"></p>
@@ -171,10 +207,19 @@
           Xác nhận mật khẩu mới<strong class="text-red-500">*</strong>
         </label>
         <div>
-          <a-input-password v-model:value="confirmPassword" :placeholder="'Xác nhận mật khẩu mới'" :size="'large'"
-            :prefix-icon="LockOutlined" :style="{ borderColor: 'var(--color-border-gray)' }" :show-password="true"
-            autocomplete="off" />
-          <p v-if="confirmPassword !== newPassword && confirmPassword.length > 0" class="text-red-500 text-sm">
+          <a-input-password
+            v-model:value="confirmPassword"
+            :placeholder="'Xác nhận mật khẩu mới'"
+            :size="'large'"
+            :prefix-icon="LockOutlined"
+            :style="{ borderColor: 'var(--color-border-gray)' }"
+            :show-password="true"
+            autocomplete="off"
+          />
+          <p
+            v-if="confirmPassword !== newPassword && confirmPassword.length > 0"
+            class="text-red-500 text-sm"
+          >
             Mật khẩu xác nhận không khớp
           </p>
           <p v-else class="h-5"></p>
@@ -184,53 +229,36 @@
     <template #footer>
       <button
         class="bg-(--color-bg-white) text-(--color-text-red) px-6 py-2 rounded-2xl mr-4 border text-base font-medium"
-        @click="handleCancel">
+        @click="handleCancel"
+      >
         Hủy bỏ
       </button>
-      <button class="bg-(--color-text-red) text-(--color-text-white) px-6 py-2 rounded-2xl text-base font-medium"
-        @click="handleChangePassword">
+      <button
+        class="bg-(--color-text-red) text-(--color-text-white) px-6 py-2 rounded-2xl text-base font-medium"
+        @click="handleChangePassword"
+      >
         Lưu mật khẩu
       </button>
     </template>
   </a-modal>
-<a-modal
-    v-if="selectedAnnouncement"
-    v-model:open="openAnnouncement"
-    :width="800"
-  >
-    <template #closeIcon>
-      <span
-        class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all"
-      >
-        <CloseOutlined class="text-lg" />
-      </span>
-    </template>
-
-    <template #title>
-      <div class="text-center text-(--color-text-red) font-bold text-2xl">
-        {{ selectedAnnouncement.title }}
-      </div>
-      <hr class="my-2 border-(--color-border-gray)" />
-    </template>
-    <div class="flex flex-col gap-4">
-      <p class="text-base font-medium">
-        {{ selectedAnnouncement.content }}
-      </p>
-      <p class="text-sm text-gray-500">Ngày tạo:</p>
-    </div>
-    <template #footer>
-      <button
-        class="bg-(--color-bg-white) text-(--color-text-red) px-6 py-2 rounded-2xl mr-4 border text-base font-medium"
-        @click="openAnnouncement = false"
-      >
-        Đóng
-      </button>
-    </template>
-  </a-modal>
+  <Announcement
+    v-if="selectedAnnouncement && openAnnouncement"
+    v-model:openAnnouncement="openAnnouncement"
+    :selectedAnnouncementId="selectedAnnouncement.id"
+  />
 </template>
 
 <script setup lang="ts">
-import { logout, studentChangeAccountPassword, searchUser } from "@/services/api";
+import Announcement from "./Announcement.vue";
+import {
+  logout,
+  studentChangeAccountPassword,
+  searchUser,
+  studentAccount,
+  studentAnnouncement,
+  studentGetAnnouncementCurrentWeek,
+  studentGetAllAnnouncements,
+} from "@/services/api";
 import { post, get } from "@/services/callApi";
 import { useUserStore } from "@/stores/user";
 import {
@@ -246,7 +274,13 @@ import { useRouter } from "vue-router";
 import { toast } from "vue3-toastify";
 import Search from "./Search.vue";
 
-const loadingAnnouncement = ref<boolean>(false);
+interface Announcement {
+  id: number;
+  title: string | null;
+  contentPreview: string | null;
+  date: string | null;
+}
+
 const router = useRouter();
 const loadingChangePassword = ref<boolean>(false);
 const openChangePassword = ref<boolean>(false);
@@ -255,31 +289,17 @@ const oldPassword = ref<string>("");
 const newPassword = ref<string>("");
 const confirmPassword = ref<string>("");
 const openAnnouncement = ref<boolean>(false);
-const announcement = ref<Announcement[]>([
-  {
-    id: 1,
-    title: "Thông báo 1",
-    content: "Nội dung thông báo 1",
-    createdAt: new Date("2023-10-01"),
-    updatedAt: new Date("2023-10-01"),
-  },
-  {
-    id: 2,
-    title: "Thông báo 2",
-    content: "Nội dung thông báo 2",
-    createdAt: new Date("2023-10-02"),
-    updatedAt: new Date("2023-10-02"),
-  },
-]);
+const announcement = ref<Announcement[]>([]);
 const selectedAnnouncement = ref<Announcement | null>(null);
+const countNotification = ref<number>(0);
+const outOfNotification = ref<boolean>(false);
 const userStore = useUserStore();
-
-const handleClickAnnouncement = () => {
-  loadingAnnouncement.value = true;
-  setTimeout(() => {
-    loadingAnnouncement.value = false;
-  }, 2000);
-};
+const pagination = ref({
+  page: 0,
+  pageSize: 10,
+  total: 0,
+});
+const isFirstLoad = ref(true);
 const handleClickAnnouncementId = (item: Announcement) => {
   selectedAnnouncement.value = item;
   openAnnouncement.value = true;
@@ -289,7 +309,11 @@ const handleCancel = () => {
 };
 
 const handleChangePassword = () => {
-  if (oldPassword.value === "" || newPassword.value === "" || confirmPassword.value === "") {
+  if (
+    oldPassword.value === "" ||
+    newPassword.value === "" ||
+    confirmPassword.value === ""
+  ) {
     toast.error("Vui lòng nhập đầy đủ thông tin");
     return;
   }
@@ -322,24 +346,77 @@ const handleChangePassword = () => {
       pending: "Đang đổi mật khẩu...",
       success: "Đổi mật khẩu thành công",
       error: "Đổi mật khẩu thất bại",
-    });
+    }
+  );
 };
 
 const handleLogout = () => {
   userStore.setUser(null);
-  toast.promise(
-    post(logout),
-    {
+  toast
+    .promise(post(logout), {
       pending: "Đang đăng xuất...",
       success: "Đăng xuất thành công",
       error: "Đăng xuất thất bại",
+    })
+    .finally(() => {
+      localStorage.removeItem("accessToken");
+      localStorage.removeItem("refreshToken");
+      router.replace("/login");
+    });
+};
+const handleClickAnnouncement = () => {
+  if (isFirstLoad.value) {
+    if (announcement.value.length >= pagination.value.pageSize) {
+      pagination.value.page += Math.floor(
+        announcement.value.length / pagination.value.pageSize
+      );
     }
-  ).finally(() => {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("refreshToken");
-    router.replace("/login");
+    isFirstLoad.value = false;
+  } else {
+    pagination.value.page += 1;
+  }
+  get(studentGetAllAnnouncements, {
+    page: pagination.value.page,
+    size: pagination.value.pageSize,
+  }).then((res) => {
+    if (res.code !== 200) {
+      toast.error("Lấy thông báo thất bại");
+      return;
+    }
+    const newAnnouncements = res.data.filter(
+      (newItem: Announcement) =>
+        !announcement.value.some(
+          (existingItem) => existingItem.id === newItem.id
+        )
+    );
+    announcement.value = [...announcement.value, ...newAnnouncements];
+    if (newAnnouncements.length === 0) {
+      outOfNotification.value = true;
+    } else {
+      outOfNotification.value = false;
+    }
+    countNotification.value += newAnnouncements.length;
+    pagination.value.total = res.paging.totalElements;
   });
 };
+onMounted(() => {
+  get(studentAccount).then((res) => {
+    if (res.code !== 200) {
+      toast.error("Lấy thông tin tài khoản thất bại");
+      return;
+    }
+    userStore.setUser(res.data);
+  });
+  get(studentGetAnnouncementCurrentWeek).then((res) => {
+    if (res.code !== 200) {
+      toast.error("Lấy thông báo thất bại");
+      return;
+    }
+    announcement.value = res.data;
+    countNotification.value = res.data.length;
+    pagination.value.total = res.data.length;
+  });
+});
 </script>
 
 <style scoped>

@@ -63,11 +63,6 @@ const columns: TableColumnsType = [
         key: "description",
     },
     {
-        title: "Số lớp đã tham gia",
-        dataIndex: "enrolledClasses",
-        key: "enrolledClasses",
-    },
-    {
         title: "Số lớp học",
         dataIndex: "totalClasses",
         key: "totalClasses",

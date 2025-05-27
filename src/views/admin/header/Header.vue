@@ -38,7 +38,7 @@
                       {{ userStore.userState?.fullName || "Nguyen Van A" }}
                     </div>
                     <div class="text-gray-500 text-sm">
-                      {{ userStore.userState?.username || "example@email.com" }}
+                      {{ userStore.userState?.email || "example@email.com" }}
                     </div>
                   </div>
                 </div>
@@ -51,7 +51,7 @@
                 </button>
               </a-menu-item>
               <a-menu-item class="hover:!text-[var(--color-text-red)]">
-                <button @click="handleLogout">
+                <button @click.stop="handleLogout">
                   <div class="flex items-center gap-1 text-base">
                     <LogoutOutlined />
                     <span>Đăng xuất</span>
@@ -129,7 +129,7 @@
 </template>
 
 <script setup lang="ts">
-import { logout, adminChangeAccountPassword, searchUser } from "@/services/api";
+import { logout, adminChangeAccountPassword, searchUser, adminAccount } from "@/services/api";
 import { post, get } from "@/services/callApi";
 import { useUserStore } from "@/stores/user";
 import {
@@ -214,6 +214,15 @@ const handleLogout = () => {
     router.replace("/login");
   });
 };
+onMounted(() => {
+  get(adminAccount).then((res) => {
+    if (res.code !== 200) {
+      toast.error("Lấy thông tin tài khoản thất bại");
+      return;
+    }
+    userStore.setUser(res.data);
+  });
+});
 </script>
 
 <style scoped>

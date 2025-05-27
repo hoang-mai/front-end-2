@@ -39,7 +39,7 @@ interface JwtPayload {
   sub: string;
 }
 import { RouterView, useRouter, useRoute } from "vue-router";
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useExpired } from "@/stores/expired";
 import { jwtDecode } from "jwt-decode";
 const expiredStore = useExpired();
@@ -57,11 +57,11 @@ const checkTokenExpiration = () => {
     return;
   }
   const decoded = jwtDecode<JwtPayload>(accessToken);
-  if (decoded.sub === "admin" && !route.path.includes("/admin")) {
-    router.replace("/admin");
-  } else if (decoded.sub === "teacher" && !route.path.includes("/teacher")) {
-    router.replace("/teacher");
-  } else if (decoded.sub === "student" && !route.path.includes("/")) {
+  if (decoded.role === "ADMIN" && !route.path.includes("/admin")) {
+    router.replace("/admin/class");
+  } else if (decoded.role === "TEACHER" && !route.path.includes("/teacher")) {
+    router.replace("/teacher/homeroom");
+  } else if (decoded.role === "STUDENT" && !route.path.includes("/")) {
     router.replace("/");
   }
 };

@@ -20,11 +20,29 @@
                 <h3 class="text-xl font-semibold text-red-600 mb-4">Danh sách lớp học</h3>
                 <a-table :dataSource="subject.classes" :columns="columns" :pagination="false" class="bg-white">
                     <template #bodyCell="{ column, record }">
-                        <template v-if="column.key === 'teaching'">
-                            <a-tag :color="record.teaching ? 'success' : 'error'" class="px-3 py-1 rounded">
-                                {{ record.teaching ? 'Đang dạy' : 'Không hoạt động' }}
-                            </a-tag>
-                        </template>
+                        <template v-if="column.key === 'teacherInfo'">
+              <div class="flex items-center">
+                <img
+                  v-if="record.teacherAvatarUrl"
+                  :src="record.teacherAvatarUrl"
+                  alt="Avatar"
+                  class="w-10 h-10 rounded-full object-cover"
+                />
+                <div
+                  v-else
+                  class="w-10 h-10 bg-red-600 rounded-full flex items-center justify-center text-(--color-text-white)"
+                >
+                  <UserOutlined class="text-2xl text-white" />
+                </div>
+
+                <div class="ml-3">
+                  <div class="font-medium">{{ record.teacherName }}</div>
+                  <div class="text-gray-500 text-sm">
+                    {{ record.teacherEmail }}
+                  </div>
+                </div>
+              </div>
+            </template>
                     </template>
                 </a-table>
             </div>
@@ -36,7 +54,9 @@
 interface Class {
     id: number;
     name: string;
-    teaching: boolean;
+    teacherName: string;
+    teacherEmail: string;
+    teacherAvatarUrl: string;
     totalStudents: number;
     startDate: string;
     endDate: string;
@@ -83,9 +103,9 @@ const columns = [
         key: 'name',
     },
     {
-        title: 'Trạng thái',
-        dataIndex: 'teaching',
-        key: 'teaching',
+        title: 'Thông tin giáo viên',
+        dataIndex: 'teacherInfo',
+        key: 'teacherInfo',
     },
     {
         title: 'Số lượng học sinh',
@@ -133,18 +153,34 @@ onMounted(() => {
     color: rgb(220 38 38);
 }
 
+
 :deep(.ant-table-thead > tr > th) {
-    background-color: rgb(254 242 242);
-    color: rgb(220 38 38);
+  background-color: var(--color-bg-red);
+  color: #fff;
 }
 
-:deep(.ant-card-body) {
-    padding: 1.5rem;
+:deep(.ant-table) {
+  border: 1px solid #f0f0f0;
 }
 
-:deep(.ant-table-wrapper) {
-    box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-    border-radius: 0.5rem;
+:deep(.ant-table-tbody > tr > td) {
+  border: 1px solid #f0f0f0;
+}
+
+:deep(.ant-table-tbody > tr:nth-child(odd)) {
+  background-color: #fff;
+}
+
+:deep(.ant-table-tbody > tr:nth-child(odd):hover > td) {
+  background-color: #ffeeee !important;
+}
+
+:deep(.ant-table-tbody > tr:nth-child(even)) {
+  background-color: var(--color-bg-gray);
+}
+
+:deep(.ant-table-tbody > tr:nth-child(even):hover > td) {
+  background-color: #ffeeee !important;
 }
 
 :deep(.ant-tag) {

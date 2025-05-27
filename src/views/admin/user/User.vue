@@ -101,11 +101,6 @@ const columns: TableColumnsType = [
     width: 250,
   },
   {
-    title: "Tên đăng nhập",
-    dataIndex: "username",
-    key: "username",
-  },
-  {
     title: "Số điện thoại",
     dataIndex: "phoneNumber",
     key: "phoneNumber",

@@ -125,8 +125,8 @@ export const post = (url: string, data?: any) => {
 export const put = (url: string, data?: any) => {
   return axiosInstance.put(url, data);
 }
-export const del = (url: string) => {
-  return axiosInstance.delete(url);
+export const del = (url: string, data?: any) => {
+  return axiosInstance.delete(url, { data });
 }
 export const patch = (url: string, data?: any) => {
   return axiosInstance.patch(url, data);

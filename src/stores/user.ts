@@ -6,7 +6,7 @@ interface UserState {
   username: string
   fullName: string
   avatarUrl: string | null
-  role: 'STUDENT' | 'TEACHER' | 'ADMIN'
+  email: string
 }
 
 export const useUserStore = defineStore('user', () => {

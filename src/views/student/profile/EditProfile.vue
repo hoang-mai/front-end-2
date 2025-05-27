@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-bind:open="open" :width="800">
+  <a-modal v-bind:open="open" :width="800" @cancel="emit('update:open', false)">
     <template #closeIcon>
       <span class="w-8 h-8 flex items-center justify-center !hover:rounded-full hover:bg-gray-200 transition-all">
         <CloseOutlined class="text-lg" />
@@ -136,17 +136,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watch } from "vue";
-import viVN from "ant-design-vue/es/locale/vi_VN";
+import { reactive } from "vue";
 
 import {
   UserOutlined,
-  LockOutlined,
   IdcardOutlined,
   TeamOutlined,
-  HeartOutlined,
-  PlusOutlined,
-  SaveOutlined,
   CloseOutlined,
 } from "@ant-design/icons-vue";
 import { put } from "@/services/callApi";

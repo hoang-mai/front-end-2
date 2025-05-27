@@ -25,7 +25,9 @@
           class="px-4 py-2 hover:bg-gray-100 cursor-pointer flex items-center gap-2"
           @click="handleSelectAccount(result.id)">
           <div class="w-8 h-8 bg-red-600 rounded-full flex items-center justify-center text-(--color-text-white)">
-            <UserOutlined />
+            <img v-if="result.avatarUrl" :src="result.avatarUrl" alt="Avatar"
+              class="w-full h-full object-cover rounded-full" />
+            <UserOutlined v-else/>
           </div>
           <div class="flex flex-col">
             <span class="font-medium text-gray-800">{{ result.fullName }}</span>
@@ -129,6 +131,7 @@ import {
 import { get } from "@/services/callApi";
 interface SearchResult {
   id: number;
+  avatarUrl: string;
   username: string;
   fullName: string;
   email: string;

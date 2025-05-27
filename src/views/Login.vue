@@ -89,9 +89,9 @@ const handleLogin = () => {
         localStorage.setItem("accessToken", res.data.accessToken);
         localStorage.setItem("refreshToken", res.data.refreshToken);
         if (res.data.role === "ADMIN") {
-          router.replace("/admin");
+          router.replace("/admin/class");
         } else if (res.data.role === "TEACHER") {
-          router.replace("/teacher");
+          router.replace("/teacher/homeroom");
         } else if (res.data.role === "STUDENT") {
           router.replace("/");
         }

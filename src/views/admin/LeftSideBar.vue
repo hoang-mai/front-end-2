@@ -1,6 +1,6 @@
 <template>
   <aside
-    class="fixed  top-16 bg-[var(--color-bg-white)] h-[calc(100vh-64px)] md:w-64 w-52  shadow-lg flex flex-col"
+    class="fixed top-16 bg-[var(--color-bg-white)] h-[calc(100vh-64px)] md:w-64 w-52 shadow-lg flex flex-col"
   >
     <nav class="flex-grow p-3 space-y-1">
       <RouterLink
@@ -14,7 +14,6 @@
         <span class="font-medium">{{ item.name }}</span>
       </RouterLink>
     </nav>
-
   </aside>
 </template>
 
@@ -26,16 +25,24 @@ import {
   CalendarOutlined,
   UserOutlined,
   UserAddOutlined,
-  NotificationOutlined
+  NotificationOutlined,
+  WalletOutlined,
+  DollarOutlined,
+  FileTextOutlined,
 } from "@ant-design/icons-vue";
 
 const navItems = [
-  { link: "/admin", name: "Trang chủ", icon: HomeOutlined },
+  { link: "/admin/class", name: "Lớp học", icon: HomeOutlined },
+  { link: "/admin/schedule-exam", name: "Lịch thi", icon: FileTextOutlined },
+  { link: "/admin/homeroom", name: "Lớp chủ nhiệm", icon: TeamOutlined },
   { link: "/admin/users", name: "Người dùng", icon: TeamOutlined },
-  { link: "/admin/class", name: "Lớp học", icon: ReadOutlined },
   { link: "/admin/subject", name: "Môn học", icon: ReadOutlined },
-  { link: "/admin/schedule", name: "Lịch học", icon: CalendarOutlined },
-  { link: "/admin/announcement", name: "Thông báo", icon: NotificationOutlined },
+  { link: "/admin/tuition", name: "Học phí", icon: DollarOutlined },
+    {
+    link: "/admin/announcement",
+    name: "Thông báo",
+    icon: NotificationOutlined,
+  },
   { link: "/admin/account", name: "Tài khoản", icon: UserAddOutlined },
 ];
 </script>
