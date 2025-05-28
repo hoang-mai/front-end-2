@@ -89,6 +89,11 @@
           v-if="classData.description"
           >{{ classData.description }}</a-descriptions-item
         >
+        <a-descriptions-item
+            label="Số lần vắng"
+            :span="3"
+        >{{ countAbsentOwner }}</a-descriptions-item
+        >
       </a-descriptions>
 
       <div class="mt-8">
@@ -139,6 +144,8 @@
 
 <script setup lang="ts">
 // Define interfaces
+import {useUserStore} from "@/stores/user.ts";
+
 interface Student {
   id: number;
   fullName: string;
@@ -245,6 +252,9 @@ const convertDaysOfWeekToString = (dayOfWeek: string): string => {
   if (dayOfWeek == "SUN") return "Chủ Nhật";
   return "";
 };
+const userStore = useUserStore();
+const countAbsentOwner = ref(0);
+
 // Table columns
 const columns = [
   {
@@ -278,6 +288,9 @@ const fetchClassData = () => {
     if (response.code === 200) {
       classData.value = response.data;
       students.value = response.data.classStudentResponses || [];
+      countAbsentOwner.value = response.data.classStudentResponses.find(
+          (student: Student) => student.email === userStore.userState?.email
+      )?.absenceCount || 0;
 
     } else {
       throw new Error("Failed to fetch class details");
